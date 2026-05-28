@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>初回介入時 問診票 | トレーナー・セラピスト向け</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cp:#1a5f7a;--cp2:#e8f4f8;--ca:#2e8b57;--ca2:#e8f5ee;
+  --cr:#c0392b;--cr2:#fdf0ee;--cam:#d4760a;--cam2:#fef8e7;
+  --brd:#d1d5db;--bg:#ffffff;--bg2:#f9fafb;
+  --tx:#111827;--tx2:#6b7280;
+  --r:10px;--rm:7px;--shadow:0 1px 3px rgba(0,0,0,.08)
+}
+@media(prefers-color-scheme:dark){:root{
+  --brd:#374151;--bg:#1f2937;--bg2:#111827;--tx:#f9fafb;--tx2:#9ca3af;
+  --shadow:0 1px 3px rgba(0,0,0,.3)
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans',sans-serif;color:var(--tx);background:var(--bg2);min-height:100vh}
+.container{max-width:740px;margin:0 auto;padding:1rem 1rem 4rem}
+
+.hdr{background:var(--bg);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.75rem;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+.hlogo{width:38px;height:38px;background:var(--cp);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hlogo i{font-size:20px;color:#fff}
+.hinfo h1{font-size:16px;font-weight:600}
+.hinfo p{font-size:12px;color:var(--tx2);margin-top:2px}
+.hprog{margin-left:auto;text-align:right}
+.hprog span{font-size:11px;color:var(--tx2);display:block;margin-bottom:4px}
+.pbar{width:120px;height:4px;background:var(--brd);border-radius:2px;overflow:hidden}
+.pfill{height:100%;background:var(--cp);border-radius:2px;transition:width .35s}
+
+.pv-notice{background:var(--cp2);border:.5px solid #90c8e0;border-radius:var(--rm);padding:.65rem .9rem;margin-bottom:.75rem;display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--cp);line-height:1.6}
+.pv-notice i{font-size:15px;flex-shrink:0;margin-top:1px}
+
+.tabs-wrap{background:var(--bg);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:.75rem;overflow:hidden}
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:.5px solid var(--brd)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:.6rem .9rem;font-size:12px;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none}
+.tab:hover{color:var(--tx);background:var(--bg2)}
+.tab.on{color:var(--cp);border-bottom-color:var(--cp);font-weight:600}
+
+.sec{display:none;background:var(--bg);border-radius:var(--r);padding:1.25rem;box-shadow:var(--shadow)}
+.sec.on{display:block}
+.sttl{font-size:14px;font-weight:600;color:var(--cp);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.sttl i{font-size:18px}
+
+.card{background:var(--bg2);border:.5px solid var(--brd);border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
+.lbl{font-size:12px;color:var(--tx2);margin-bottom:4px;font-weight:500}
+.hint{font-size:11px;color:var(--tx2);font-style:italic;margin-bottom:7px}
+.opt-hint{font-size:11px;color:var(--tx2);font-style:italic;margin-bottom:8px}
+
+input[type=text],textarea,select{font-size:13px;border:.5px solid var(--brd);border-radius:var(--rm);padding:7px 10px;width:100%;background:var(--bg);color:var(--tx);font-family:inherit;transition:border-color .2s;-webkit-appearance:none}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--cp);box-shadow:0 0 0 3px rgba(26,95,122,.12)}
+textarea{resize:vertical;min-height:56px;line-height:1.7}
+.row{display:flex;gap:9px;flex-wrap:wrap}
+.row>*{flex:1;min-width:120px}
+
+.vas-wrap{margin-top:.75rem}
+.vasr{display:flex;justify-content:space-between;font-size:11px;color:var(--tx2);margin-bottom:4px}
+input[type=range]{width:100%;accent-color:var(--cp);height:6px;margin:4px 0;cursor:pointer}
+.vas-display{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px}
+.vasn{font-size:28px;font-weight:700;color:var(--cp);min-width:40px;text-align:center}
+.vdesc{font-size:12px;color:var(--tx2)}
+
+.cg{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.ci{display:flex;align-items:flex-start;gap:8px;cursor:pointer;padding:6px 8px;border-radius:var(--rm);transition:background .15s;font-size:13px;line-height:1.5;border:none;background:none;text-align:left;width:100%}
+.ci:hover{background:var(--brd)}
+.ci input{margin-top:2px;accent-color:var(--cp);flex-shrink:0;width:15px;height:15px}
+.ci .cs{font-size:11px;color:var(--tx2);display:block;margin-top:2px}
+.ci.rf input{accent-color:var(--cr)}
+.ci.rf .ct{color:var(--cr)}
+
+.reminder{background:var(--cp2);border-left:3px solid var(--cp);border-radius:0 var(--rm) var(--rm) 0;padding:.7rem 1rem;margin-bottom:1rem;font-size:12px;color:var(--cp);line-height:1.7}
+.al{border-radius:var(--rm);padding:.65rem .9rem;margin-bottom:.75rem;font-size:12px;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
+.al i{font-size:15px;flex-shrink:0;margin-top:1px}
+.al-info{background:var(--cp2);color:var(--cp);border:.5px solid #90c8e0}
+.al-warn{background:var(--cam2);color:var(--cam);border:.5px solid #f0c060}
+.al-ok{background:var(--ca2);color:var(--ca);border:.5px solid #80c8a0}
+.al-danger{background:var(--cr2);color:var(--cr);border:.5px solid #e89090}
+
+.memo{background:var(--cam2);border:.5px solid #f0c060;border-radius:var(--rm);padding:.85rem 1rem;margin-top:.75rem}
+.memo-hd{font-size:11px;font-weight:600;color:var(--cam);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.memo-hd i{font-size:14px}
+.mcg{display:flex;flex-direction:column;gap:5px}
+.mc{display:flex;align-items:flex-start;gap:7px;font-size:12px;cursor:pointer;line-height:1.5;padding:3px 0}
+.mc input{accent-color:var(--cam);flex-shrink:0;margin-top:2px;width:14px;height:14px}
+
+.rf-block{background:var(--bg2);border:.5px solid var(--brd);border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
+.rf-ttl{font-size:13px;font-weight:600;color:var(--cr);margin-bottom:.75rem;display:flex;align-items:center;gap:7px}
+.rf-ttl i{font-size:17px}
+.rf-clear-lbl{display:flex;align-items:flex-start;gap:9px;padding:.65rem .9rem;border-radius:var(--rm);background:var(--ca2);border:.5px solid #80c8a0;cursor:pointer;margin-bottom:.75rem}
+.rf-clear-lbl input{margin-top:2px;accent-color:var(--ca);flex-shrink:0;width:15px;height:15px}
+.rf-clear-txt{font-size:13px;color:var(--ca);font-weight:500;line-height:1.5}
+.rf-items{display:flex;flex-direction:column;gap:4px;transition:opacity .2s}
+.rf-items.muted{opacity:.3;pointer-events:none}
+.rf-flag-warn{display:none;margin-top:.75rem}
+
+.brow{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
+.btn{padding:8px 20px;border-radius:var(--rm);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;border:.5px solid var(--brd);background:var(--bg);color:var(--tx);display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--bg2)}
+.btn.p{background:var(--cp);color:#fff;border-color:var(--cp)}
+.btn.p:hover{background:#16516a}
+
+/* ── Result ── */
+.res-hdr{text-align:center;padding:.75rem 0 1.25rem}
+.res-hdr h2{font-size:20px;font-weight:600;margin-bottom:4px}
+.res-hdr p{font-size:12px;color:var(--tx2)}
+.rb{background:var(--bg2);border:.5px solid var(--brd);border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
+.rb h3{font-size:12px;font-weight:600;color:var(--cp);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+.rb h3 i{font-size:16px}
+.ri{font-size:12px;padding:5px 0;border-bottom:.5px solid var(--brd);display:flex;gap:8px}
+.ri:last-child{border:none}
+.rl{color:var(--tx2);flex-shrink:0;min-width:100px}
+.rv{font-weight:500;flex:1}
+
+/* ── Guide blocks ── */
+.guide-block{background:var(--cp2);border:.5px solid #a0cce0;border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
+.guide-block h3{font-size:12px;font-weight:600;color:var(--cp);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+.guide-block h3 i{font-size:16px}
+.guide-item{font-size:12px;padding:5px 0 5px 16px;position:relative;line-height:1.65;border-bottom:.5px solid #c0dced}
+.guide-item:last-child{border:none;padding-bottom:0}
+.guide-item::before{content:'→';position:absolute;left:0;color:var(--cp);font-weight:600}
+
+.eval-block{background:var(--bg2);border:.5px solid var(--brd);border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
+.eval-block h3{font-size:12px;font-weight:600;color:var(--cp);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+.eval-block h3 i{font-size:16px}
+.eval-section{margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:.5px solid var(--brd)}
+.eval-section:last-child{border:none;margin-bottom:0;padding-bottom:0}
+.eval-section-ttl{font-size:12px;font-weight:600;margin-bottom:.4rem;display:flex;align-items:center;gap:6px}
+.badge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;margin-left:auto}
+.b-urgent{background:var(--cr2);color:var(--cr)}
+.b-primary{background:var(--cp2);color:var(--cp)}
+.b-secondary{background:var(--bg2);color:var(--tx2);border:.5px solid var(--brd)}
+.eval-item{font-size:12px;padding:4px 0 4px 14px;position:relative;line-height:1.6;color:var(--tx2)}
+.eval-item::before{content:'•';position:absolute;left:0;color:var(--cp)}
+
+.aq-block{background:var(--cam2);border:.5px solid #f0c060;border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
+.aq-block h3{font-size:12px;font-weight:600;color:var(--cam);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+.aq-block h3 i{font-size:16px}
+.aq-item{padding:.45rem 0;border-bottom:.5px solid #f0c060;display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--cam);line-height:1.6}
+.aq-item:last-child{border:none;padding-bottom:0}
+.aq-item i{font-size:14px;flex-shrink:0;margin-top:2px}
+
+.act-row{display:flex;gap:8px;margin-top:1.25rem;flex-wrap:wrap;justify-content:center}
+.abtn{padding:8px 18px;border-radius:var(--rm);font-size:13px;font-weight:500;cursor:pointer;border:.5px solid var(--brd);background:var(--bg);color:var(--tx);transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.abtn:hover{background:var(--bg2)}
+.footer{text-align:center;font-size:11px;color:var(--tx2);margin-top:2rem;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hdr">
+    <div class="hlogo"><i class="ti ti-clipboard-heart"></i></div>
+    <div class="hinfo">
+      <h1>初回介入時 問診票</h1>
+      <p>トレーナー・セラピスト向け / プライバシー配慮版</p>
+    </div>
+    <div class="hprog">
+      <span id="plabel">1 / 9 セクション</span>
+      <div class="pbar"><div class="pfill" id="pfill" style="width:11%"></div></div>
+    </div>
+  </div>
+
+  <div class="pv-notice">
+    <i class="ti ti-shield-lock"></i>
+    <span>氏名・生年月日・住所・連絡先は収集しません。管理番号と年代・性別のみで対応します。すべての項目は任意です。このアプリはサーバーへの通信を一切行いません。</span>
+  </div>
+
+  <div class="tabs-wrap">
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-s="0">①識別情報</button>
+      <button class="tab" data-s="1">②来院目的</button>
+      <button class="tab" data-s="2">③既往歴</button>
+      <button class="tab" data-s="3">④症状傾向</button>
+      <button class="tab" data-s="4">⑤24h変化</button>
+      <button class="tab" data-s="5">⑥機能制限</button>
+      <button class="tab" data-s="6">⑦生活習慣</button>
+      <button class="tab" data-s="7">⑧医学情報</button>
+      <button class="tab" data-s="8">⑨RedFlags</button>
+      <button class="tab" data-s="9">⑩ゴール</button>
+      <button class="tab" data-s="10">📋 結果</button>
+    </div>
+  </div>
+
+  <!-- ① 識別情報 -->
+  <div class="sec on" id="s0">
+    <div class="sttl"><i class="ti ti-id-badge-off"></i>1. 識別情報（最小限）</div>
+    <div class="reminder"><strong>評価者リマインダー：</strong>問診開始前に90〜120cmの距離を保ち、自己紹介・所要時間・目的を伝えて緊張をほぐしてください。</div>
+    <div class="al al-info"><i class="ti ti-shield-check"></i>氏名・生年月日・住所・連絡先は収集しません。管理番号と年代・性別のみで対応します。</div>
+    <div class="card">
+      <div class="row">
+        <div><div class="lbl">管理番号（任意）</div><input type="text" id="cid" placeholder="例：2026-001、イニシャルのみ等"></div>
+        <div><div class="lbl">本日の日付</div><input type="text" id="today" readonly></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div><div class="lbl">年代</div><select id="age"><option value="">未確認</option><option>10代</option><option>20代</option><option>30代</option><option>40代</option><option>50代</option><option>60代</option><option>70代以上</option></select></div>
+        <div><div class="lbl">性別</div><select id="gender"><option value="">未確認</option><option>男性</option><option>女性</option><option>その他／回答しない</option></select></div>
+      </div>
+    </div>
+    <div class="brow"><button class="btn p" onclick="go(1)">次へ <i class="ti ti-arrow-right"></i></button></div>
+  </div>
+
+  <!-- ② 来院目的 -->
+  <div class="sec" id="s1">
+    <div class="sttl"><i class="ti ti-stethoscope"></i>2. 来院目的・現病歴（4W）</div>
+    <div class="card">
+      <div class="lbl">Q1. 本日の症状または目的は？</div>
+      <div class="hint">例：右肩の痛み、腰痛、運動不足解消など</div>
+      <textarea id="cc" placeholder="自由記述（任意）"></textarea>
+    </div>
+    <div class="card">
+      <div class="lbl" style="margin-bottom:8px">Q2. 症状の4W確認</div>
+      <div class="opt-hint">確認できた項目だけ入力してください</div>
+      <div class="row" style="margin-bottom:10px">
+        <div><div class="lbl">いつ頃から（When）</div><input type="text" id="onset" placeholder="例：2ヶ月前、先週など"></div>
+        <div><div class="lbl">発症の仕方</div><select id="onset-type"><option value="">未確認</option><option>急に</option><option>徐々に</option></select></div>
+      </div>
+      <div class="lbl">具体的な状況（Where / What）</div>
+      <textarea id="onset-detail" placeholder="どこで何をしているときか（任意）" rows="2"></textarea>
+    </div>
+    <div class="card">
+      <div class="lbl">現在の痛みの強さ（VAS 0〜10）</div>
+      <div class="vas-wrap">
+        <div class="vasr"><span>0 痛みなし</span><span>10 最大の痛み</span></div>
+        <input type="range" id="vas" min="0" max="10" step="1" value="0" oninput="onVas(this.value)">
+        <div class="vas-display">
+          <div class="vasn" id="vv">0</div>
+          <div class="vdesc" id="vdesc">痛みなし</div>
+        </div>
+      </div>
+    </div>
+    <div class="memo">
+      <div class="memo-hd"><i class="ti ti-notes"></i>評価者メモ — 痛みの部位・受傷機転の深掘り</div>
+      <textarea style="font-size:12px;margin-top:4px" id="m-onset" placeholder="部位、深さ、放散痛の有無など…" rows="2"></textarea>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(0)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="go(2)">次へ <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ③ 既往歴 -->
+  <div class="sec" id="s2">
+    <div class="sttl"><i class="ti ti-history"></i>3. 既往歴・過去の治療歴</div>
+    <div class="card">
+      <div class="lbl">Q3. 過去に同様の症状はありましたか？</div>
+      <div class="cg">
+        <label class="ci"><input type="radio" name="ps" value="なし"><span>ない</span></label>
+        <label class="ci"><input type="radio" name="ps" value="あり" id="ps-yes"><span>ある</span></label>
+        <label class="ci"><input type="radio" name="ps" value="未確認" checked><span style="color:var(--tx2)">未確認</span></label>
+      </div>
+      <div id="psd" style="display:none;margin-top:10px">
+        <div class="row">
+          <div><div class="lbl">時期</div><input type="text" id="pt" placeholder="例：3年前"></div>
+          <div><div class="lbl">治療内容</div><input type="text" id="ptx" placeholder="例：リハビリ、手術など"></div>
+        </div>
+        <div style="margin-top:8px"><div class="lbl">改善しましたか？</div><select id="pr"><option value="">選択</option><option>改善した</option><option>変わらなかった</option></select></div>
+        <div style="margin-top:8px"><div class="lbl">効果的だった方法</div><input type="text" id="pe" placeholder="例：ストレッチ、電気治療など"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Q4. 過去の怪我・手術・繰り返す不調</div>
+      <textarea id="pi" placeholder="例：右膝ACL手術（5年前）、慢性的な頭痛など（任意）" rows="2"></textarea>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(1)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="go(3)">次へ <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ④ 症状傾向 -->
+  <div class="sec" id="s3">
+    <div class="sttl"><i class="ti ti-trending-up"></i>4. 症状の傾向（悪化・軽減動作）</div>
+    <div class="opt-hint">確認できた項目だけ入力してください</div>
+    <div class="card">
+      <div class="lbl">Q5. 症状が「強く」なる動作・姿勢は？</div>
+      <textarea id="worse" placeholder="例：前かがみになると腰が痛む（任意）"></textarea>
+    </div>
+    <div class="card">
+      <div class="lbl">Q6. 症状が「楽に」なる動作・姿勢は？</div>
+      <textarea id="better" placeholder="例：横になると楽、温めると楽になる（任意）"></textarea>
+    </div>
+    <div class="memo">
+      <div class="memo-hd"><i class="ti ti-notes"></i>評価者メモ — メカニカルストレスの推測</div>
+      <div class="mcg">
+        <label class="mc"><input type="checkbox" id="m1"><span>自動運動で痛む ＆ 他動で軽減 → 筋・腱の問題を示唆</span></label>
+        <label class="mc"><input type="checkbox" id="m2"><span>自動・他動ともに制限あり → 関節・可動域制限を示唆</span></label>
+        <label class="mc"><input type="checkbox" id="m3"><span>荷重時のみ症状 → 荷重ストレス・アライメントの問題を示唆</span></label>
+      </div>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(2)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="go(4)">次へ <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ⑤ 24時間変化 -->
+  <div class="sec" id="s4">
+    <div class="sttl"><i class="ti ti-clock"></i>5. 24時間での痛みの変化</div>
+    <div class="opt-hint">確認できたものにチェックしてください（任意）</div>
+    <div class="card">
+      <div class="lbl">Q7. 症状が強い時間帯は？</div>
+      <div class="cg">
+        <label class="ci"><input type="checkbox" id="pm"><span>朝（起床時・動き始め）に強い<span class="cs">→ 関節・筋肉の硬さの可能性</span></span></label>
+        <label class="ci"><input type="checkbox" id="pd"><span>日中（活動時・夕方）に強い<span class="cs">→ 筋力・筋持久力不足、負荷蓄積の可能性</span></span></label>
+        <label class="ci"><input type="checkbox" id="pn" onchange="nightCheck(this)"><span>夜間・安静時に強い<span class="cs">→ 強い炎症反応、または重篤疾患の可能性（要精査）</span></span></label>
+      </div>
+      <div id="nwarn" style="display:none;margin-top:8px">
+        <div class="al al-warn"><i class="ti ti-alert-triangle"></i>夜間・安静時痛あり：レッドフラッグ確認（⑨）を必ず実施してください。</div>
+      </div>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(3)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="go(5)">次へ <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ⑥ 機能制限 -->
+  <div class="sec" id="s5">
+    <div class="sttl"><i class="ti ti-ban"></i>6. 機能的制限</div>
+    <div class="card">
+      <div class="lbl">Q8. 症状によってできなくて困っていることは？</div>
+      <div class="hint">例：洗濯物が干せない、デスクワークが30分もたない、テニスができない</div>
+      <textarea id="fl" placeholder="日常生活・仕事・趣味での制限（任意）"></textarea>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(4)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="go(6)">次へ <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ⑦ 生活習慣 -->
+  <div class="sec" id="s6">
+    <div class="sttl"><i class="ti ti-walk"></i>7. 生活習慣・身体活動</div>
+    <div class="card">
+      <div class="lbl">Q9. 普段の主な姿勢・仕事の種類</div>
+      <div class="cg">
+        <label class="ci"><input type="radio" name="job" value="デスクワーク中心"><span>デスクワーク中心</span></label>
+        <label class="ci"><input type="radio" name="job" value="立ち仕事"><span>立ち仕事・歩くことが多い</span></label>
+        <label class="ci"><input type="radio" name="job" value="重労働"><span>重い荷物・激しい身体作業</span></label>
+        <label class="ci"><input type="radio" name="job" value="スポーツ・アスリート"><span>スポーツ・アスリート</span></label>
+        <label class="ci"><input type="radio" name="job" value="未確認" checked><span style="color:var(--tx2)">未確認</span></label>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Q10. 定期的な運動習慣はありますか？</div>
+      <div class="cg">
+        <label class="ci"><input type="radio" name="ex" value="なし"><span>ない</span></label>
+        <label class="ci"><input type="radio" name="ex" value="あり" id="ex-y"><span>ある</span></label>
+        <label class="ci"><input type="radio" name="ex" value="未確認" checked><span style="color:var(--tx2)">未確認</span></label>
+      </div>
+      <div id="exd" style="display:none;margin-top:10px">
+        <div class="row">
+          <div><div class="lbl">種目</div><input type="text" id="extype" placeholder="例：水泳、ランニング"></div>
+          <div><div class="lbl">頻度</div><input type="text" id="exfreq" placeholder="例：週3回"></div>
+        </div>
+      </div>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(5)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="go(7)">次へ <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ⑧ 医学情報 -->
+  <div class="sec" id="s7">
+    <div class="sttl"><i class="ti ti-pill"></i>8. 医学的情報（最小限）</div>
+    <div class="al al-info"><i class="ti ti-shield-check"></i>病院名・医師名などの機関情報は記録しません。服薬の有無と画像所見の内容のみ確認します。</div>
+    <div class="card">
+      <div class="lbl">Q11. 現在、服薬していますか？</div>
+      <div class="cg">
+        <label class="ci"><input type="radio" name="med" value="なし"><span>ない</span></label>
+        <label class="ci"><input type="radio" name="med" value="あり" id="med-y"><span>ある</span></label>
+        <label class="ci"><input type="radio" name="med" value="未確認" checked><span style="color:var(--tx2)">未確認</span></label>
+      </div>
+      <div id="medd" style="display:none;margin-top:10px">
+        <div class="lbl">薬の種類（種類のみ・商品名不要）</div>
+        <input type="text" id="medtype" placeholder="例：鎮痛剤、抗炎症薬など">
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">Q12. 画像検査（レントゲン・MRI等）の所見内容</div>
+      <textarea id="img" placeholder="例：腰椎すべり症、椎間板ヘルニア、異常なし（任意・医療機関名は記載不要）"></textarea>
+      <div style="margin-top:8px">
+        <div class="lbl">クライアント自身の解釈・理解</div>
+        <textarea id="ptund" placeholder="例：一生治らないと思っている（任意）" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(6)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="go(8)">次へ <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ⑨ レッドフラッグ -->
+  <div class="sec" id="s8">
+    <div class="sttl"><i class="ti ti-alert-triangle"></i>9. 重篤疾患の除外（Red Flags）</div>
+    <div class="al al-warn"><i class="ti ti-shield-exclamation"></i>評価者が口頭で確認するリスク管理項目です。1つでも該当する場合は介入を中止し医療機関へ紹介してください。</div>
+    <div class="rf-block">
+      <div class="rf-ttl"><i class="ti ti-flag"></i>レッドフラッグ チェック</div>
+      <label class="rf-clear-lbl">
+        <input type="checkbox" id="rf-clear" checked onchange="toggleRF(this)">
+        <span class="rf-clear-txt">これらのレッドフラッグに関連する兆候は認められない</span>
+      </label>
+      <div class="rf-items muted" id="rf-items">
+        <div class="opt-hint">該当する項目があればチェックしてください</div>
+        <div class="cg">
+          <label class="ci rf"><input type="checkbox" id="r1" onchange="updateRFWarn()"><span class="ct">原因不明の急激な体重減少</span></label>
+          <label class="ci rf"><input type="checkbox" id="r2" onchange="updateRFWarn()"><span class="ct">発熱または全身の強い倦怠感</span></label>
+          <label class="ci rf"><input type="checkbox" id="r3" onchange="updateRFWarn()"><span class="ct">安静時・夜間も痛みが全く変わらない</span></label>
+          <label class="ci rf"><input type="checkbox" id="r4" onchange="updateRFWarn()"><span class="ct">進行性の麻痺・感覚低下</span></label>
+          <label class="ci rf"><input type="checkbox" id="r5" onchange="updateRFWarn()"><span class="ct">排尿・排便の障害（失禁など）</span></label>
+        </div>
+      </div>
+      <div class="rf-flag-warn al al-danger" id="rf-warn"><i class="ti ti-alert-circle"></i><span>レッドフラッグに該当あり — 介入を中止し、速やかに医療機関へ紹介してください。</span></div>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(7)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="go(9)">次へ <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ⑩ ゴール -->
+  <div class="sec" id="s9">
+    <div class="sttl"><i class="ti ti-target"></i>10. 治療ゴール・期待</div>
+    <div class="card">
+      <div class="lbl">Q13. 最終的にどのような状態になりたいですか？</div>
+      <div class="hint">例：痛みを気にせず旅行に行きたい、孫と思い切り遊びたい</div>
+      <textarea id="goal" rows="4" placeholder="具体的な目標・期待を自由記述（任意）"></textarea>
+    </div>
+    <div class="memo">
+      <div class="memo-hd"><i class="ti ti-notes"></i>評価者メモ — ゴール設定のポイント</div>
+      <div class="mcg">
+        <label class="mc"><input type="checkbox" id="gs"><span>SMARTゴールに落とし込んだ（具体的・測定可能・達成可能・現実的・期限あり）</span></label>
+        <label class="mc"><input type="checkbox" id="gp"><span>クライアントの価値観・優先事項を反映したゴールになっている</span></label>
+        <label class="mc"><input type="checkbox" id="gsh"><span>短期（1〜2週）と長期目標に分けて設定した</span></label>
+      </div>
+    </div>
+    <div class="brow">
+      <button class="btn" onclick="go(8)"><i class="ti ti-arrow-left"></i> 戻る</button>
+      <button class="btn p" onclick="showResult()">問診を完了して結果を生成 <i class="ti ti-report-medical"></i></button>
+    </div>
+  </div>
+
+  <!-- 結果 -->
+  <div class="sec" id="s10">
+    <div class="res-hdr">
+      <h2>問診結果サマリー</h2>
+      <p id="resub"></p>
+    </div>
+    <div id="rf-banner"></div>
+    <div class="rb"><h3><i class="ti ti-id-badge-off"></i>識別情報</h3><div id="rbasic"></div></div>
+    <div class="rb"><h3><i class="ti ti-stethoscope"></i>主訴・現病歴</h3><div id="rcomplaint"></div></div>
+    <div class="rb"><h3><i class="ti ti-trending-up"></i>症状の傾向</h3><div id="rtendency"></div></div>
+    <div id="guide-wrap"></div>
+    <div id="eval-wrap"></div>
+    <div id="aq-wrap"></div>
+    <div class="rb" id="rgoal-block" style="display:none"><h3><i class="ti ti-target"></i>クライアントのゴール</h3><div id="rgoal"></div></div>
+    <div class="act-row">
+      <button class="abtn" onclick="resetAll()"><i class="ti ti-refresh"></i> 新しい問診を開始</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    このアプリはすべてブラウザ内で動作します。入力内容は外部に送信されません。<br>
+    © 初回介入時 問診票
+  </div>
+</div>
+
+<script>
+const VAS_LABELS = ['痛みなし','ほぼ痛みなし','わずかに痛む','軽度の痛み','やや強い痛み','中程度の痛み','強い痛み','かなり強い痛み','非常に強い痛み','耐えがたい痛み','想像しうる最大の痛み'];
+
+// ============================================================
+// 静的ガイドロジック
+// VAS・時間帯・メカニカル・職業・レッドフラッグ等から
+// 考えられること・確認すべき評価・追加質問を自動生成
+// ============================================================
+function buildGuide(d) {
+  const guides = [];
+  const evals = [];   // {title, priority, items:[]}
+  const addQs = [];
+
+  // ── レッドフラッグ ──
+  if (d.rfFlags.length > 0) {
+    guides.push('⚠️ レッドフラッグ該当あり：身体評価の前に医師への紹介を最優先してください。');
+  }
+
+  // ── VAS ──
+  if (d.vas >= 8) {
+    guides.push('VAS 8以上：強い急性炎症または重篤疾患の可能性があります。初回は評価のみとし、積極的な介入は控えてください。');
+    evals.push({title:'疼痛評価・炎症所見の確認', priority:'urgent', items:[
+      '安静時・運動時・荷重時の疼痛パターンを詳細に記録する',
+      '局所の熱感・腫脹・発赤（炎症の4徴）を視診・触診で確認する',
+      'NRS/VASで安静時・動作時の疼痛強度を数値化する'
+    ]});
+  } else if (d.vas >= 5) {
+    guides.push('VAS 5〜7：中等度の疼痛があります。評価中の疼痛増悪に注意し、負荷量を慎重に調整してください。');
+  } else if (d.vas > 0) {
+    guides.push('VAS 1〜4：軽度〜中等度の疼痛です。評価・介入ともに進めやすい状態です。');
+  }
+
+  // ── 夜間・安静時痛 ──
+  if (d.nightPain) {
+    guides.push('夜間・安静時痛あり：腫瘍・感染・強い炎症反応の鑑別が必要です。レッドフラッグを再確認し、必要に応じて医療機関へ紹介を検討してください。');
+    evals.push({title:'夜間・安静時痛の精査', priority:'urgent', items:[
+      '疼痛の性質（ズキズキ・ジンジン・圧迫感）と強度を詳細に聴取する',
+      '発熱・体重減少・全身倦怠感の有無を口頭で再確認する',
+      'ポジショニングによる変化（横になると増悪・軽減など）を確認する'
+    ]});
+  }
+
+  // ── 朝のこわばり ──
+  if (d.morningPain) {
+    guides.push('朝・動き始めに強い：関節・筋膜の硬さ、または関節リウマチ・変形性関節症の可能性があります。');
+    evals.push({title:'関節可動域・ウォームアップ評価', priority:'primary', items:[
+      '起床後と活動後のROMを比較計測し、ウォームアップ後の変化を確認する',
+      '関節の捻髪音・クリック音・弾発現象の有無を確認する',
+      '朝のこわばりの持続時間を聴取する（30分以上は炎症性疾患を示唆）'
+    ]});
+  }
+
+  // ── 日中・活動時増悪 ──
+  if (d.daytimePain) {
+    guides.push('日中・夕方に増悪：筋力・筋持久力不足、または姿勢疲労による蓄積ストレスが考えられます。');
+    evals.push({title:'筋力・筋持久力評価', priority:'primary', items:[
+      '主要筋群のMMT（徒手筋力テスト）を実施する',
+      '持続的な姿勢保持テスト（コアスタビリティ、肩甲骨保持など）を実施する',
+      '動的アライメントと疲労による姿勢変化を観察する'
+    ]});
+  }
+
+  // ── メカニカルストレス ──
+  if (d.mech1) {
+    guides.push('自動運動で痛む・他動で軽減：筋・腱の問題（腱炎・筋損傷・インピンジメント）が示唆されます。');
+    evals.push({title:'筋・腱の評価', priority:'primary', items:[
+      'MMTで患部周囲の筋力と収縮時疼痛を確認する',
+      '腱の圧痛部位・範囲を触診で特定する',
+      'インピンジメントテスト（部位に応じてニア・ホーキンス等）を実施する',
+      '抵抗運動テスト（等尺性収縮）で疼痛再現を確認する'
+    ]});
+  }
+  if (d.mech2) {
+    guides.push('自動・他動ともに制限：関節包・靭帯・関節軟骨の問題、または癒着・拘縮が示唆されます。');
+    evals.push({title:'関節可動域・エンドフィール評価', priority:'primary', items:[
+      '全方向のROMを角度計で計測し、健側と比較する',
+      'エンドフィール（終端感）の性質（弾性・筋性・空虚・骨性）を確認する',
+      'カプセルパターンの有無を確認する（部位別パターンと照合）',
+      '付属運動（関節副運動）の評価を実施する'
+    ]});
+  }
+  if (d.mech3) {
+    guides.push('荷重時のみ症状あり：荷重ストレス・アライメント不良・足底圧の偏位が考えられます。');
+    evals.push({title:'荷重・アライメント評価', priority:'primary', items:[
+      '静的アライメント（立位・座位）を前後・側方から評価する',
+      '片脚立位テストで下肢安定性・トレンデレンブルグ徴候を確認する',
+      '歩行・スクワット動作の動的アライメントを観察する',
+      '足部アーチ・回内外の程度を確認する'
+    ]});
+  }
+
+  // ── 職業 ──
+  if (d.job === 'デスクワーク中心') {
+    guides.push('デスクワーク中心：胸椎後弯・頸椎前突・股関節屈曲拘縮のパターンが多くみられます。姿勢評価を優先してください。');
+    evals.push({title:'デスクワーク姿勢の評価', priority:'secondary', items:[
+      '胸椎伸展可動域（座位・臥位）を評価する',
+      '頸椎アライメント・頭部前方変位の程度を確認する',
+      'トーマステスト（腸腰筋・大腿直筋短縮）を実施する',
+      '肩甲骨の安定性・外転距離を確認する'
+    ]});
+    addQs.push({topic:'1日の座位時間', q:'1日のうち、何時間程度座っていますか？また、立ち上がる頻度はどのくらいですか？', reason:'長時間座位の程度が筋拘縮・姿勢負担の評価指標になります'});
+  }
+  if (d.job === '重労働') {
+    guides.push('重労働・激しい身体作業：腰部への反復ストレスが蓄積している可能性があります。体幹スタビリティと動作パターンを確認してください。');
+    evals.push({title:'体幹スタビリティ・動作評価', priority:'secondary', items:[
+      'コアスタビリティテスト（ドローイン・ブレーシング）を実施する',
+      'ヒンジ動作（股関節主導の前傾）の質を評価する',
+      '反復動作における腰部の過伸展・過屈曲パターンを観察する'
+    ]});
+  }
+  if (d.job === 'スポーツ・アスリート') {
+    guides.push('スポーツ・アスリート：スポーツ特異的な動作パターンや競技特性を考慮した評価が重要です。');
+    addQs.push({topic:'競技種目・ポジション', q:'取り組んでいる競技の種目・ポジション・週の練習量を教えてください。', reason:'競技特異的な動作パターンと受傷機転の関連を評価するために必要です'});
+  }
+
+  // ── 過去に同様症状あり ──
+  if (d.pastSimilar === 'あり') {
+    guides.push('過去に同様の症状あり：慢性・反復性の問題である可能性があります。前回の改善・悪化要因を治療計画に反映してください。');
+  }
+
+  // ── 未確認項目への追加質問 ──
+  if (!d.onset) addQs.push({topic:'発症時期・経緯', q:'症状はいつ頃から、何をしているときに始まりましたか？', reason:'急性か慢性かで評価・介入の優先順位が大きく変わります'});
+  if (!d.worse && !d.better) addQs.push({topic:'悪化・軽減動作', q:'どんな動きや姿勢をすると症状が強くなりますか？また楽になる姿勢はありますか？', reason:'メカニカルストレスの方向性を特定し、評価テストの選択に役立ちます'});
+  if (!d.pm && !d.pd && !d.nightPain) addQs.push({topic:'痛みの時間帯パターン', q:'1日の中で症状が一番強い時間帯はいつですか（朝・日中・夜）？', reason:'炎症の性質と疾患の鑑別に重要な情報です'});
+  if (!d.pi) addQs.push({topic:'既往歴・過去の怪我', q:'過去に大きな怪我、手術、または繰り返しているお身体の不調はありますか？', reason:'既往症が現症状の原因や増悪因子となっている可能性があります'});
+  if (!d.fl) addQs.push({topic:'機能制限・困っていること', q:'この症状によって、日常生活や仕事・趣味の中でできなくて困っていることはありますか？', reason:'機能目標の設定と治療優先順位の決定に直結します'});
+
+  return { guides, evals, addQs };
+}
+
+function ri(l, v) {
+  if (!v || String(v).trim() === '') return '';
+  return `<div class="ri"><span class="rl">${l}</span><span class="rv">${v}</span></div>`;
+}
+
+window.onVas = function(v) {
+  document.getElementById('vv').textContent = v;
+  document.getElementById('vdesc').textContent = VAS_LABELS[parseInt(v)] || '';
+};
+
+(function init() {
+  const d = new Date();
+  document.getElementById('today').value = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  document.querySelectorAll('input[name="ps"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('psd').style.display = (r.value === 'あり' && r.checked) ? 'block' : 'none';
+    });
+  });
+  document.getElementById('med-y').addEventListener('change', () => document.getElementById('medd').style.display = 'block');
+  document.querySelectorAll('input[name="med"]').forEach(r => {
+    r.addEventListener('change', () => { if (r.value !== 'あり') document.getElementById('medd').style.display = 'none'; });
+  });
+  document.getElementById('ex-y').addEventListener('change', () => document.getElementById('exd').style.display = 'block');
+  document.querySelectorAll('input[name="ex"]').forEach(r => {
+    r.addEventListener('change', () => { if (r.value !== 'あり') document.getElementById('exd').style.display = 'none'; });
+  });
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      const i = parseInt(t.dataset.s);
+      if (i === 10) showResult(); else go(i);
+    });
+  });
+})();
+
+window.nightCheck = function(el) { document.getElementById('nwarn').style.display = el.checked ? 'block' : 'none'; };
+window.toggleRF = function(cb) {
+  document.getElementById('rf-items').classList.toggle('muted', cb.checked);
+  if (cb.checked) {
+    ['r1','r2','r3','r4','r5'].forEach(id => document.getElementById(id).checked = false);
+    document.getElementById('rf-warn').style.display = 'none';
+  }
+};
+window.updateRFWarn = function() {
+  const any = ['r1','r2','r3','r4','r5'].some(id => document.getElementById(id).checked);
+  document.getElementById('rf-warn').style.display = any ? 'flex' : 'none';
+};
+window.go = function(i) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('s' + i).classList.add('on');
+  document.querySelector('.tab[data-s="' + i + '"]').classList.add('on');
+  document.getElementById('pfill').style.width = Math.min(Math.round(((i+1)/10)*100), 100) + '%';
+  document.getElementById('plabel').textContent = i < 10 ? `${i+1} / 9 セクション` : '結果サマリー';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+window.resetAll = function() {
+  if (!confirm('新しい問診を開始します。現在の入力内容はすべて消去されます。よろしいですか？')) return;
+  location.reload();
+};
+
+window.showResult = function() {
+  go(10);
+
+  const cid = document.getElementById('cid').value;
+  const ar  = document.getElementById('age').value;
+  const gn  = document.getElementById('gender').value;
+  document.getElementById('resub').textContent = `管理番号: ${cid||'未記入'}　${ar||''}　${gn||''}　${document.getElementById('today').value}`;
+
+  const rfClear = document.getElementById('rf-clear').checked;
+  const rfFlagMap = {r1:'急激な体重減少',r2:'発熱・全身倦怠感',r3:'安静時・夜間痛',r4:'進行性麻痺・感覚低下',r5:'排尿排便障害'};
+  const rfFlags = ['r1','r2','r3','r4','r5'].filter(id => document.getElementById(id).checked).map(id => rfFlagMap[id]);
+
+  const rfBanner = document.getElementById('rf-banner');
+  if (!rfClear && rfFlags.length > 0) {
+    rfBanner.innerHTML = `<div class="al al-danger"><i class="ti ti-alert-circle"></i><strong>レッドフラッグ該当あり（${rfFlags.join('、')}）</strong> — 介入を中止し、速やかに医療機関へ紹介してください。</div>`;
+  } else if (rfClear) {
+    rfBanner.innerHTML = `<div class="al al-ok"><i class="ti ti-circle-check"></i>レッドフラッグの兆候なし（確認済み）— 介入可能です。</div>`;
+  } else {
+    rfBanner.innerHTML = `<div class="al al-warn"><i class="ti ti-alert-triangle"></i>レッドフラッグの確認が未実施です。必ず口頭で確認してください。</div>`;
+  }
+
+  const vas        = parseInt(document.getElementById('vas').value);
+  const cc         = document.getElementById('cc').value;
+  const onset      = document.getElementById('onset').value;
+  const onsetType  = document.getElementById('onset-type').value;
+  const pi         = document.getElementById('pi').value;
+  const pm         = document.getElementById('pm').checked;
+  const pd         = document.getElementById('pd').checked;
+  const pn         = document.getElementById('pn').checked;
+  const m1         = document.getElementById('m1').checked;
+  const m2         = document.getElementById('m2').checked;
+  const m3         = document.getElementById('m3').checked;
+  const worse      = document.getElementById('worse').value;
+  const better     = document.getElementById('better').value;
+  const job        = document.querySelector('input[name="job"]:checked')?.value || '未確認';
+  const fl         = document.getElementById('fl').value;
+  const pastSimilar= document.querySelector('input[name="ps"]:checked')?.value || '未確認';
+
+  const times  = [pm&&'朝', pd&&'日中・夕方', pn&&'夜間・安静時'].filter(Boolean);
+  const mechs  = [m1&&'筋・腱の問題を示唆', m2&&'関節・可動域制限を示唆', m3&&'荷重ストレス・アライメントを示唆'].filter(Boolean);
+
+  document.getElementById('rbasic').innerHTML =
+    ri('管理番号', cid) + ri('年代・性別', `${ar||'未確認'} ${gn||''}`);
+  document.getElementById('rcomplaint').innerHTML =
+    ri('主訴', cc||'未記入') +
+    ri('発症', onset ? (onset + (onsetType ? ' / ' + onsetType : '')) : '未確認') +
+    ri('現在のVAS', `${vas} / 10　${VAS_LABELS[vas]||''}`);
+  document.getElementById('rtendency').innerHTML =
+    ri('悪化動作', worse||'未確認') +
+    ri('軽減動作', better||'未確認') +
+    ri('痛みが強い時間帯', times.length ? times.join('、') : '未確認') +
+    ri('メカニカル推測', mechs.length ? mechs.join(' / ') : '未評価');
+
+  const goal = document.getElementById('goal').value;
+  if (goal) {
+    document.getElementById('rgoal').innerHTML = ri('ゴール', goal);
+    document.getElementById('rgoal-block').style.display = 'block';
+  }
+
+  // ── 静的ガイド生成 ──
+  const data = { vas, nightPain: pn, morningPain: pm, daytimePain: pd,
+    mech1: m1, mech2: m2, mech3: m3, job, onset, worse, better,
+    pi, fl, pastSimilar, rfFlags };
+  const { guides, evals, addQs } = buildGuide(data);
+
+  // 考えられること
+  let gHtml = '';
+  if (guides.length > 0) {
+    gHtml = `<div class="guide-block"><h3><i class="ti ti-bulb"></i>考えられること・介入上の注意点</h3>`;
+    guides.forEach(g => { gHtml += `<div class="guide-item">${g}</div>`; });
+    gHtml += `</div>`;
+  }
+  document.getElementById('guide-wrap').innerHTML = gHtml;
+
+  // 評価プラン
+  const bm = {urgent:'b-urgent', primary:'b-primary', secondary:'b-secondary'};
+  const bl = {urgent:'最優先', primary:'優先', secondary:'補助的'};
+  let eHtml = '';
+  if (evals.length > 0) {
+    eHtml = `<div class="eval-block"><h3><i class="ti ti-clipboard-check"></i>確認すべき評価項目</h3>`;
+    evals.forEach(ev => {
+      eHtml += `<div class="eval-section">
+        <div class="eval-section-ttl">${ev.title}<span class="badge ${bm[ev.priority]||'b-secondary'}">${bl[ev.priority]||ev.priority}</span></div>`;
+      ev.items.forEach(item => { eHtml += `<div class="eval-item">${item}</div>`; });
+      eHtml += `</div>`;
+    });
+    eHtml += `</div>`;
+  }
+  document.getElementById('eval-wrap').innerHTML = eHtml;
+
+  // 追加質問
+  let aHtml = '';
+  if (addQs.length > 0) {
+    aHtml = `<div class="aq-block"><h3><i class="ti ti-help-circle"></i>確認しておくと精度が上がる追加質問</h3>`;
+    addQs.forEach(q => {
+      aHtml += `<div class="aq-item"><i class="ti ti-message-question"></i>
+        <div><div style="font-weight:600;margin-bottom:2px">${q.topic}</div>
+        <div style="margin-bottom:3px">「${q.q}」</div>
+        <div style="font-size:11px;opacity:.8">${q.reason}</div></div></div>`;
+    });
+    aHtml += `</div>`;
+  }
+  document.getElementById('aq-wrap').innerHTML = aHtml;
+};
+</script>
+</body>
+</html>
