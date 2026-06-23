@@ -2,768 +2,631 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>初回介入時 問診票 | トレーナー・セラピスト向け</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>有栖川整形外科 セルフケアエクササイズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --cp:#1a5f7a;--cp2:#e8f4f8;--ca:#2e8b57;--ca2:#e8f5ee;
-  --cr:#c0392b;--cr2:#fdf0ee;--cam:#d4760a;--cam2:#fef8e7;
-  --brd:#d1d5db;--bg:#ffffff;--bg2:#f9fafb;
-  --tx:#111827;--tx2:#6b7280;
-  --r:10px;--rm:7px;--shadow:0 1px 3px rgba(0,0,0,.08)
-}
-@media(prefers-color-scheme:dark){:root{
-  --brd:#374151;--bg:#1f2937;--bg2:#111827;--tx:#f9fafb;--tx2:#9ca3af;
-  --shadow:0 1px 3px rgba(0,0,0,.3)
-}}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans',sans-serif;color:var(--tx);background:var(--bg2);min-height:100vh}
-.container{max-width:740px;margin:0 auto;padding:1rem 1rem 4rem}
+  :root{
+    --bg: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-sunken: #F6F6F6;
+    --ink: #161616;
+    --ink-soft: #5A5A5A;
+    --ink-faint: #8C8C8C;
+    --accent: #ED1C24;
+    --accent-soft: #FDECEC;
+    --line: #E2E2E2;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --font-display: 'Zen Kaku Gothic New', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-display);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 90px; /* space for sticky bar */
+  }
+  .wrap{ max-width: 760px; margin: 0 auto; padding: 32px 18px 40px; }
+  .wrap[inert]{ filter: saturate(0); }
 
-.hdr{background:var(--bg);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.75rem;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
-.hlogo{width:38px;height:38px;background:var(--cp);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.hlogo i{font-size:20px;color:#fff}
-.hinfo h1{font-size:16px;font-weight:600}
-.hinfo p{font-size:12px;color:var(--tx2);margin-top:2px}
-.hprog{margin-left:auto;text-align:right}
-.hprog span{font-size:11px;color:var(--tx2);display:block;margin-bottom:4px}
-.pbar{width:120px;height:4px;background:var(--brd);border-radius:2px;overflow:hidden}
-.pfill{height:100%;background:var(--cp);border-radius:2px;transition:width .35s}
+  header.app-header{ margin-bottom: 26px; border-bottom: 1px solid var(--line); padding-bottom: 20px; }
+  .clinic-logo{ height: 40px; width:auto; display:block; margin:0 0 16px; }
+  @media (max-width:480px){ .clinic-logo{ height:34px; } }
+  h1{ font-size: 24px; font-weight: 900; margin: 0 0 8px; letter-spacing:-0.01em; }
+  .sub{ color: var(--ink-soft); font-size: 14px; margin: 0; max-width: 50ch; }
 
-.pv-notice{background:var(--cp2);border:.5px solid #90c8e0;border-radius:var(--rm);padding:.65rem .9rem;margin-bottom:.75rem;display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--cp);line-height:1.6}
-.pv-notice i{font-size:15px;flex-shrink:0;margin-top:1px}
+  /* ---- search ---- */
+  .search-row{ margin-bottom: 18px; }
+  .search-input{
+    width:100%; padding: 13px 14px; font-size:15px; font-family:var(--font-display);
+    border:1.5px solid var(--line); border-radius: var(--radius-sm); color:var(--ink);
+  }
+  .search-input:focus-visible{ outline:3px solid var(--accent); outline-offset:1px; }
 
-.tabs-wrap{background:var(--bg);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:.75rem;overflow:hidden}
-.tabs{display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:.5px solid var(--brd)}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:.6rem .9rem;font-size:12px;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none}
-.tab:hover{color:var(--tx);background:var(--bg2)}
-.tab.on{color:var(--cp);border-bottom-color:var(--cp);font-weight:600}
+  /* ---- checklist ---- */
+  .cat-group{ margin-bottom: 18px; }
+  .cat-title{
+    font-size: 12px; font-family:var(--font-mono); color: var(--ink-faint);
+    text-transform:uppercase; letter-spacing:0.06em; margin: 0 0 8px; padding-left:2px;
+  }
+  .ex-row{
+    display:flex; align-items:center; gap:12px;
+    border:1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 11px 13px; margin-bottom: 8px; background: var(--surface);
+    transition: border-color .12s ease, background .12s ease;
+  }
+  .ex-row.is-checked{ border-color: var(--accent); background: var(--accent-soft); }
+  .ex-row.is-hidden{ display:none; }
+  .ex-row input[type="checkbox"]{ width:20px; height:20px; accent-color:var(--accent); flex-shrink:0; cursor:pointer; }
+  .ex-no{
+    font-family: var(--font-mono); font-size:11.5px; color: var(--ink-soft);
+    background: var(--surface-sunken); border-radius:5px; padding:3px 6px; flex-shrink:0; font-weight:700;
+  }
+  .ex-main{ flex:1; min-width:0; }
+  .ex-name{ font-weight:700; font-size:14.5px; margin:0; }
+  .ex-tag{ font-size:11px; font-family:var(--font-mono); color: var(--ink-soft); }
+  .ex-qty-inputs{ display:none; align-items:flex-end; gap:8px; flex-shrink:0; }
+  .ex-row.is-checked .ex-qty-inputs{ display:flex; }
+  .qty-field{ display:flex; flex-direction:column; gap:2px; }
+  .qty-field label{ font-size:10.5px; color:var(--ink-soft); font-family:var(--font-mono); }
+  .qty-field input{
+    width:48px; padding:6px 4px; border:1px solid var(--line); border-radius:6px;
+    font-family:var(--font-mono); font-size:14px; text-align:center; color:var(--ink);
+  }
+  .qty-field .qty-row{ display:flex; gap:4px; }
+  .qty-field select.qty-unit{
+    padding:6px 2px; border:1px solid var(--line); border-radius:6px;
+    font-family:var(--font-display); font-size:12.5px; color:var(--ink); background:#fff;
+  }
+  .ex-preview-link{
+    flex-shrink:0; width:30px; height:30px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background: var(--surface-sunken); color: var(--ink-soft); text-decoration:none;
+  }
+  .ex-preview-link svg{ width:13px; height:13px; }
+  .ex-preview-link:hover{ background: var(--ink); color:#fff; }
 
-.sec{display:none;background:var(--bg);border-radius:var(--r);padding:1.25rem;box-shadow:var(--shadow)}
-.sec.on{display:block}
-.sttl{font-size:14px;font-weight:600;color:var(--cp);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
-.sttl i{font-size:18px}
+  /* ---- sticky bottom bar ---- */
+  .selection-bar{
+    position: fixed; left:0; right:0; bottom:0; background: #fff;
+    border-top: 1px solid var(--line); padding: 12px 18px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px; z-index: 60;
+  }
+  .selection-count{ font-size: 13px; color: var(--ink-soft); font-family:var(--font-mono); }
+  .selection-count b{ color: var(--ink); font-size:15px; }
+  .primary-btn{
+    font-family: var(--font-display); font-weight:700; font-size:15px; color:#fff;
+    background: var(--accent); border:none; border-radius:999px; padding:13px 26px; cursor:pointer;
+  }
+  .primary-btn:hover:not(:disabled){ background:#C8161D; }
+  .primary-btn:disabled{ background:#CCCCCC; cursor:not-allowed; }
+  .secondary-btn{
+    font-family: var(--font-display); font-weight:700; font-size:14px; color:var(--ink);
+    background: #fff; border:1.5px solid var(--line); border-radius:999px; padding:11px 22px; cursor:pointer;
+  }
+  .secondary-btn:hover{ border-color: var(--ink); }
 
-.card{background:var(--bg2);border:.5px solid var(--brd);border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
-.lbl{font-size:12px;color:var(--tx2);margin-bottom:4px;font-weight:500}
-.hint{font-size:11px;color:var(--tx2);font-style:italic;margin-bottom:7px}
-.opt-hint{font-size:11px;color:var(--tx2);font-style:italic;margin-bottom:8px}
+  /* ---- result panel ---- */
+  #resultPanel{ display:none; margin-top: 28px; border-top: 2px solid var(--ink); padding-top: 22px; }
+  #resultPanel.visible{ display:block; }
+  #resultPanel h2{ font-size:17px; font-weight:900; margin:0 0 14px; }
+  .link-row{ display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
+  .link-row input{
+    flex:1; min-width:200px; padding:12px 14px; border:1.5px solid var(--line); border-radius:var(--radius-sm);
+    font-family:var(--font-mono); font-size:13px; color:var(--ink); background:var(--surface-sunken);
+  }
+  .copy-feedback{ font-size:12.5px; color:var(--accent); font-weight:700; margin-left:4px; display:none; }
+  .copy-feedback.show{ display:inline; }
+  .qr-row{ display:flex; align-items:center; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+  #qrBox{ width:150px; height:150px; flex-shrink:0; }
+  .qr-hint{ font-size:12.5px; color:var(--ink-soft); max-width:300px; }
+  .action-row{ display:flex; gap:10px; margin-bottom: 22px; flex-wrap:wrap; }
 
-input[type=text],textarea,select{font-size:13px;border:.5px solid var(--brd);border-radius:var(--rm);padding:7px 10px;width:100%;background:var(--bg);color:var(--tx);font-family:inherit;transition:border-color .2s;-webkit-appearance:none}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--cp);box-shadow:0 0 0 3px rgba(26,95,122,.12)}
-textarea{resize:vertical;min-height:56px;line-height:1.7}
-.row{display:flex;gap:9px;flex-wrap:wrap}
-.row>*{flex:1;min-width:120px}
+  .preview-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .preview-card{
+    background: var(--surface-sunken); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 12px 14px; display:flex; align-items:center; gap:12px;
+  }
+  .preview-qty{
+    font-family: var(--font-mono); font-weight:700; font-size:13px; color: var(--accent);
+    background:#fff; border:1px solid var(--accent); border-radius:6px; padding:3px 8px; flex-shrink:0; white-space:nowrap;
+  }
 
-.vas-wrap{margin-top:.75rem}
-.vasr{display:flex;justify-content:space-between;font-size:11px;color:var(--tx2);margin-bottom:4px}
-input[type=range]{width:100%;accent-color:var(--cp);height:6px;margin:4px 0;cursor:pointer}
-.vas-display{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px}
-.vasn{font-size:28px;font-weight:700;color:var(--cp);min-width:40px;text-align:center}
-.vdesc{font-size:12px;color:var(--tx2)}
+  /* ---- patient view ex-card (reuse style) ---- */
+  .ex-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .ex-card{
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 14px 16px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .ex-card .ex-body{ flex:1; min-width:160px; }
+  .ex-card .ex-name{ font-weight:700; font-size:15px; margin:0 0 4px; }
+  .ex-card .ex-qty-display{
+    font-family: var(--font-mono); font-weight:700; font-size:14px; color: var(--accent);
+  }
+  .ex-play{
+    flex-shrink:0; display:flex; align-items:center; gap:7px; background: var(--ink); color:#fff;
+    text-decoration:none; font-size: 13px; font-weight: 700; padding: 10px 14px; border-radius: 999px; white-space:nowrap;
+  }
+  .ex-play:hover{ background: var(--accent); }
+  .ex-play svg{ width:14px; height:14px; }
 
-.cg{display:flex;flex-direction:column;gap:5px;margin-top:6px}
-.ci{display:flex;align-items:flex-start;gap:8px;cursor:pointer;padding:6px 8px;border-radius:var(--rm);transition:background .15s;font-size:13px;line-height:1.5;border:none;background:none;text-align:left;width:100%}
-.ci:hover{background:var(--brd)}
-.ci input{margin-top:2px;accent-color:var(--cp);flex-shrink:0;width:15px;height:15px}
-.ci .cs{font-size:11px;color:var(--tx2);display:block;margin-top:2px}
-.ci.rf input{accent-color:var(--cr)}
-.ci.rf .ct{color:var(--cr)}
+  .safety-note{
+    margin-top: 22px; font-size: 12.5px; color: var(--ink-soft);
+    border-top: 1px dashed var(--line); padding-top: 14px; line-height:1.7;
+  }
+  .safety-note strong{ color: var(--ink); }
+  .error-note{
+    background: var(--accent-soft); border:1px solid var(--accent); border-radius: var(--radius);
+    padding: 16px 18px; font-size:14px; color: var(--ink);
+  }
+  footer{ text-align:center; margin-top: 36px; font-size: 11.5px; color: var(--ink-faint); font-family: var(--font-mono); }
 
-.reminder{background:var(--cp2);border-left:3px solid var(--cp);border-radius:0 var(--rm) var(--rm) 0;padding:.7rem 1rem;margin-bottom:1rem;font-size:12px;color:var(--cp);line-height:1.7}
-.al{border-radius:var(--rm);padding:.65rem .9rem;margin-bottom:.75rem;font-size:12px;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
-.al i{font-size:15px;flex-shrink:0;margin-top:1px}
-.al-info{background:var(--cp2);color:var(--cp);border:.5px solid #90c8e0}
-.al-warn{background:var(--cam2);color:var(--cam);border:.5px solid #f0c060}
-.al-ok{background:var(--ca2);color:var(--ca);border:.5px solid #80c8a0}
-.al-danger{background:var(--cr2);color:var(--cr);border:.5px solid #e89090}
+  /* ---- consent overlay ---- */
+  .consent-overlay{ position: fixed; inset: 0; background: rgba(20,20,20,0.55); display:flex; align-items:center; justify-content:center; padding: 20px; z-index: 999; }
+  .consent-overlay.hidden{ display:none; }
+  .consent-card{ background:#fff; width:100%; max-width: 460px; border-radius: 12px; border-top: 4px solid var(--accent); padding: 26px 24px 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.22); max-height: 88vh; overflow-y:auto; }
+  .consent-card h2{ font-size: 17px; font-weight:900; margin: 0 0 14px; }
+  .consent-list{ margin: 0 0 18px; padding-left: 1.15em; font-size: 14px; color: var(--ink); line-height:1.8; }
+  .consent-list li{ margin-bottom: 9px; }
+  .consent-check{ display:flex; align-items:flex-start; gap:9px; font-size: 13.5px; color: var(--ink); margin-bottom: 18px; cursor:pointer; }
+  .consent-check input{ margin-top:3px; accent-color: var(--accent); width:18px; height:18px; flex-shrink:0; }
+  #consentAgreeBtn{ width:100%; }
 
-.memo{background:var(--cam2);border:.5px solid #f0c060;border-radius:var(--rm);padding:.85rem 1rem;margin-top:.75rem}
-.memo-hd{font-size:11px;font-weight:600;color:var(--cam);margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.memo-hd i{font-size:14px}
-.mcg{display:flex;flex-direction:column;gap:5px}
-.mc{display:flex;align-items:flex-start;gap:7px;font-size:12px;cursor:pointer;line-height:1.5;padding:3px 0}
-.mc input{accent-color:var(--cam);flex-shrink:0;margin-top:2px;width:14px;height:14px}
-
-.rf-block{background:var(--bg2);border:.5px solid var(--brd);border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
-.rf-ttl{font-size:13px;font-weight:600;color:var(--cr);margin-bottom:.75rem;display:flex;align-items:center;gap:7px}
-.rf-ttl i{font-size:17px}
-.rf-clear-lbl{display:flex;align-items:flex-start;gap:9px;padding:.65rem .9rem;border-radius:var(--rm);background:var(--ca2);border:.5px solid #80c8a0;cursor:pointer;margin-bottom:.75rem}
-.rf-clear-lbl input{margin-top:2px;accent-color:var(--ca);flex-shrink:0;width:15px;height:15px}
-.rf-clear-txt{font-size:13px;color:var(--ca);font-weight:500;line-height:1.5}
-.rf-items{display:flex;flex-direction:column;gap:4px;transition:opacity .2s}
-.rf-items.muted{opacity:.3;pointer-events:none}
-.rf-flag-warn{display:none;margin-top:.75rem}
-
-.brow{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end}
-.btn{padding:8px 20px;border-radius:var(--rm);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;border:.5px solid var(--brd);background:var(--bg);color:var(--tx);display:inline-flex;align-items:center;gap:6px}
-.btn:hover{background:var(--bg2)}
-.btn.p{background:var(--cp);color:#fff;border-color:var(--cp)}
-.btn.p:hover{background:#16516a}
-
-/* ── Result ── */
-.res-hdr{text-align:center;padding:.75rem 0 1.25rem}
-.res-hdr h2{font-size:20px;font-weight:600;margin-bottom:4px}
-.res-hdr p{font-size:12px;color:var(--tx2)}
-.rb{background:var(--bg2);border:.5px solid var(--brd);border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
-.rb h3{font-size:12px;font-weight:600;color:var(--cp);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
-.rb h3 i{font-size:16px}
-.ri{font-size:12px;padding:5px 0;border-bottom:.5px solid var(--brd);display:flex;gap:8px}
-.ri:last-child{border:none}
-.rl{color:var(--tx2);flex-shrink:0;min-width:100px}
-.rv{font-weight:500;flex:1}
-
-/* ── Guide blocks ── */
-.guide-block{background:var(--cp2);border:.5px solid #a0cce0;border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
-.guide-block h3{font-size:12px;font-weight:600;color:var(--cp);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
-.guide-block h3 i{font-size:16px}
-.guide-item{font-size:12px;padding:5px 0 5px 16px;position:relative;line-height:1.65;border-bottom:.5px solid #c0dced}
-.guide-item:last-child{border:none;padding-bottom:0}
-.guide-item::before{content:'→';position:absolute;left:0;color:var(--cp);font-weight:600}
-
-.eval-block{background:var(--bg2);border:.5px solid var(--brd);border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
-.eval-block h3{font-size:12px;font-weight:600;color:var(--cp);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
-.eval-block h3 i{font-size:16px}
-.eval-section{margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:.5px solid var(--brd)}
-.eval-section:last-child{border:none;margin-bottom:0;padding-bottom:0}
-.eval-section-ttl{font-size:12px;font-weight:600;margin-bottom:.4rem;display:flex;align-items:center;gap:6px}
-.badge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;margin-left:auto}
-.b-urgent{background:var(--cr2);color:var(--cr)}
-.b-primary{background:var(--cp2);color:var(--cp)}
-.b-secondary{background:var(--bg2);color:var(--tx2);border:.5px solid var(--brd)}
-.eval-item{font-size:12px;padding:4px 0 4px 14px;position:relative;line-height:1.6;color:var(--tx2)}
-.eval-item::before{content:'•';position:absolute;left:0;color:var(--cp)}
-
-.aq-block{background:var(--cam2);border:.5px solid #f0c060;border-radius:var(--rm);padding:.9rem 1rem;margin-bottom:.75rem}
-.aq-block h3{font-size:12px;font-weight:600;color:var(--cam);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
-.aq-block h3 i{font-size:16px}
-.aq-item{padding:.45rem 0;border-bottom:.5px solid #f0c060;display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--cam);line-height:1.6}
-.aq-item:last-child{border:none;padding-bottom:0}
-.aq-item i{font-size:14px;flex-shrink:0;margin-top:2px}
-
-.act-row{display:flex;gap:8px;margin-top:1.25rem;flex-wrap:wrap;justify-content:center}
-.abtn{padding:8px 18px;border-radius:var(--rm);font-size:13px;font-weight:500;cursor:pointer;border:.5px solid var(--brd);background:var(--bg);color:var(--tx);transition:all .15s;display:inline-flex;align-items:center;gap:7px}
-.abtn:hover{background:var(--bg2)}
-.footer{text-align:center;font-size:11px;color:var(--tx2);margin-top:2rem;line-height:1.8}
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; } }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <div class="hdr">
-    <div class="hlogo"><i class="ti ti-clipboard-heart"></i></div>
-    <div class="hinfo">
-      <h1>初回介入時 問診票</h1>
-      <p>トレーナー・セラピスト向け / プライバシー配慮版</p>
-    </div>
-    <div class="hprog">
-      <span id="plabel">1 / 9 セクション</span>
-      <div class="pbar"><div class="pfill" id="pfill" style="width:11%"></div></div>
-    </div>
-  </div>
-
-  <div class="pv-notice">
-    <i class="ti ti-shield-lock"></i>
-    <span>氏名・生年月日・住所・連絡先は収集しません。管理番号と年代・性別のみで対応します。すべての項目は任意です。このアプリはサーバーへの通信を一切行いません。</span>
-  </div>
-
-  <div class="tabs-wrap">
-    <div class="tabs" id="tabs">
-      <button class="tab on" data-s="0">①識別情報</button>
-      <button class="tab" data-s="1">②来院目的</button>
-      <button class="tab" data-s="2">③既往歴</button>
-      <button class="tab" data-s="3">④症状傾向</button>
-      <button class="tab" data-s="4">⑤24h変化</button>
-      <button class="tab" data-s="5">⑥機能制限</button>
-      <button class="tab" data-s="6">⑦生活習慣</button>
-      <button class="tab" data-s="7">⑧医学情報</button>
-      <button class="tab" data-s="8">⑨RedFlags</button>
-      <button class="tab" data-s="9">⑩ゴール</button>
-      <button class="tab" data-s="10">📋 結果</button>
-    </div>
-  </div>
-
-  <!-- ① 識別情報 -->
-  <div class="sec on" id="s0">
-    <div class="sttl"><i class="ti ti-id-badge-off"></i>1. 識別情報（最小限）</div>
-    <div class="reminder"><strong>評価者リマインダー：</strong>問診開始前に90〜120cmの距離を保ち、自己紹介・所要時間・目的を伝えて緊張をほぐしてください。</div>
-    <div class="al al-info"><i class="ti ti-shield-check"></i>氏名・生年月日・住所・連絡先は収集しません。管理番号と年代・性別のみで対応します。</div>
-    <div class="card">
-      <div class="row">
-        <div><div class="lbl">管理番号（任意）</div><input type="text" id="cid" placeholder="例：2026-001、イニシャルのみ等"></div>
-        <div><div class="lbl">本日の日付</div><input type="text" id="today" readonly></div>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <div><div class="lbl">年代</div><select id="age"><option value="">未確認</option><option>10代</option><option>20代</option><option>30代</option><option>40代</option><option>50代</option><option>60代</option><option>70代以上</option></select></div>
-        <div><div class="lbl">性別</div><select id="gender"><option value="">未確認</option><option>男性</option><option>女性</option><option>その他／回答しない</option></select></div>
-      </div>
-    </div>
-    <div class="brow"><button class="btn p" onclick="go(1)">次へ <i class="ti ti-arrow-right"></i></button></div>
-  </div>
-
-  <!-- ② 来院目的 -->
-  <div class="sec" id="s1">
-    <div class="sttl"><i class="ti ti-stethoscope"></i>2. 来院目的・現病歴（4W）</div>
-    <div class="card">
-      <div class="lbl">Q1. 本日の症状または目的は？</div>
-      <div class="hint">例：右肩の痛み、腰痛、運動不足解消など</div>
-      <textarea id="cc" placeholder="自由記述（任意）"></textarea>
-    </div>
-    <div class="card">
-      <div class="lbl" style="margin-bottom:8px">Q2. 症状の4W確認</div>
-      <div class="opt-hint">確認できた項目だけ入力してください</div>
-      <div class="row" style="margin-bottom:10px">
-        <div><div class="lbl">いつ頃から（When）</div><input type="text" id="onset" placeholder="例：2ヶ月前、先週など"></div>
-        <div><div class="lbl">発症の仕方</div><select id="onset-type"><option value="">未確認</option><option>急に</option><option>徐々に</option></select></div>
-      </div>
-      <div class="lbl">具体的な状況（Where / What）</div>
-      <textarea id="onset-detail" placeholder="どこで何をしているときか（任意）" rows="2"></textarea>
-    </div>
-    <div class="card">
-      <div class="lbl">現在の痛みの強さ（VAS 0〜10）</div>
-      <div class="vas-wrap">
-        <div class="vasr"><span>0 痛みなし</span><span>10 最大の痛み</span></div>
-        <input type="range" id="vas" min="0" max="10" step="1" value="0" oninput="onVas(this.value)">
-        <div class="vas-display">
-          <div class="vasn" id="vv">0</div>
-          <div class="vdesc" id="vdesc">痛みなし</div>
-        </div>
-      </div>
-    </div>
-    <div class="memo">
-      <div class="memo-hd"><i class="ti ti-notes"></i>評価者メモ — 痛みの部位・受傷機転の深掘り</div>
-      <textarea style="font-size:12px;margin-top:4px" id="m-onset" placeholder="部位、深さ、放散痛の有無など…" rows="2"></textarea>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(0)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="go(2)">次へ <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ③ 既往歴 -->
-  <div class="sec" id="s2">
-    <div class="sttl"><i class="ti ti-history"></i>3. 既往歴・過去の治療歴</div>
-    <div class="card">
-      <div class="lbl">Q3. 過去に同様の症状はありましたか？</div>
-      <div class="cg">
-        <label class="ci"><input type="radio" name="ps" value="なし"><span>ない</span></label>
-        <label class="ci"><input type="radio" name="ps" value="あり" id="ps-yes"><span>ある</span></label>
-        <label class="ci"><input type="radio" name="ps" value="未確認" checked><span style="color:var(--tx2)">未確認</span></label>
-      </div>
-      <div id="psd" style="display:none;margin-top:10px">
-        <div class="row">
-          <div><div class="lbl">時期</div><input type="text" id="pt" placeholder="例：3年前"></div>
-          <div><div class="lbl">治療内容</div><input type="text" id="ptx" placeholder="例：リハビリ、手術など"></div>
-        </div>
-        <div style="margin-top:8px"><div class="lbl">改善しましたか？</div><select id="pr"><option value="">選択</option><option>改善した</option><option>変わらなかった</option></select></div>
-        <div style="margin-top:8px"><div class="lbl">効果的だった方法</div><input type="text" id="pe" placeholder="例：ストレッチ、電気治療など"></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="lbl">Q4. 過去の怪我・手術・繰り返す不調</div>
-      <textarea id="pi" placeholder="例：右膝ACL手術（5年前）、慢性的な頭痛など（任意）" rows="2"></textarea>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(1)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="go(3)">次へ <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ④ 症状傾向 -->
-  <div class="sec" id="s3">
-    <div class="sttl"><i class="ti ti-trending-up"></i>4. 症状の傾向（悪化・軽減動作）</div>
-    <div class="opt-hint">確認できた項目だけ入力してください</div>
-    <div class="card">
-      <div class="lbl">Q5. 症状が「強く」なる動作・姿勢は？</div>
-      <textarea id="worse" placeholder="例：前かがみになると腰が痛む（任意）"></textarea>
-    </div>
-    <div class="card">
-      <div class="lbl">Q6. 症状が「楽に」なる動作・姿勢は？</div>
-      <textarea id="better" placeholder="例：横になると楽、温めると楽になる（任意）"></textarea>
-    </div>
-    <div class="memo">
-      <div class="memo-hd"><i class="ti ti-notes"></i>評価者メモ — メカニカルストレスの推測</div>
-      <div class="mcg">
-        <label class="mc"><input type="checkbox" id="m1"><span>自動運動で痛む ＆ 他動で軽減 → 筋・腱の問題を示唆</span></label>
-        <label class="mc"><input type="checkbox" id="m2"><span>自動・他動ともに制限あり → 関節・可動域制限を示唆</span></label>
-        <label class="mc"><input type="checkbox" id="m3"><span>荷重時のみ症状 → 荷重ストレス・アライメントの問題を示唆</span></label>
-      </div>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(2)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="go(4)">次へ <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ⑤ 24時間変化 -->
-  <div class="sec" id="s4">
-    <div class="sttl"><i class="ti ti-clock"></i>5. 24時間での痛みの変化</div>
-    <div class="opt-hint">確認できたものにチェックしてください（任意）</div>
-    <div class="card">
-      <div class="lbl">Q7. 症状が強い時間帯は？</div>
-      <div class="cg">
-        <label class="ci"><input type="checkbox" id="pm"><span>朝（起床時・動き始め）に強い<span class="cs">→ 関節・筋肉の硬さの可能性</span></span></label>
-        <label class="ci"><input type="checkbox" id="pd"><span>日中（活動時・夕方）に強い<span class="cs">→ 筋力・筋持久力不足、負荷蓄積の可能性</span></span></label>
-        <label class="ci"><input type="checkbox" id="pn" onchange="nightCheck(this)"><span>夜間・安静時に強い<span class="cs">→ 強い炎症反応、または重篤疾患の可能性（要精査）</span></span></label>
-      </div>
-      <div id="nwarn" style="display:none;margin-top:8px">
-        <div class="al al-warn"><i class="ti ti-alert-triangle"></i>夜間・安静時痛あり：レッドフラッグ確認（⑨）を必ず実施してください。</div>
-      </div>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(3)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="go(5)">次へ <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ⑥ 機能制限 -->
-  <div class="sec" id="s5">
-    <div class="sttl"><i class="ti ti-ban"></i>6. 機能的制限</div>
-    <div class="card">
-      <div class="lbl">Q8. 症状によってできなくて困っていることは？</div>
-      <div class="hint">例：洗濯物が干せない、デスクワークが30分もたない、テニスができない</div>
-      <textarea id="fl" placeholder="日常生活・仕事・趣味での制限（任意）"></textarea>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(4)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="go(6)">次へ <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ⑦ 生活習慣 -->
-  <div class="sec" id="s6">
-    <div class="sttl"><i class="ti ti-walk"></i>7. 生活習慣・身体活動</div>
-    <div class="card">
-      <div class="lbl">Q9. 普段の主な姿勢・仕事の種類</div>
-      <div class="cg">
-        <label class="ci"><input type="radio" name="job" value="デスクワーク中心"><span>デスクワーク中心</span></label>
-        <label class="ci"><input type="radio" name="job" value="立ち仕事"><span>立ち仕事・歩くことが多い</span></label>
-        <label class="ci"><input type="radio" name="job" value="重労働"><span>重い荷物・激しい身体作業</span></label>
-        <label class="ci"><input type="radio" name="job" value="スポーツ・アスリート"><span>スポーツ・アスリート</span></label>
-        <label class="ci"><input type="radio" name="job" value="未確認" checked><span style="color:var(--tx2)">未確認</span></label>
-      </div>
-    </div>
-    <div class="card">
-      <div class="lbl">Q10. 定期的な運動習慣はありますか？</div>
-      <div class="cg">
-        <label class="ci"><input type="radio" name="ex" value="なし"><span>ない</span></label>
-        <label class="ci"><input type="radio" name="ex" value="あり" id="ex-y"><span>ある</span></label>
-        <label class="ci"><input type="radio" name="ex" value="未確認" checked><span style="color:var(--tx2)">未確認</span></label>
-      </div>
-      <div id="exd" style="display:none;margin-top:10px">
-        <div class="row">
-          <div><div class="lbl">種目</div><input type="text" id="extype" placeholder="例：水泳、ランニング"></div>
-          <div><div class="lbl">頻度</div><input type="text" id="exfreq" placeholder="例：週3回"></div>
-        </div>
-      </div>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(5)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="go(7)">次へ <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ⑧ 医学情報 -->
-  <div class="sec" id="s7">
-    <div class="sttl"><i class="ti ti-pill"></i>8. 医学的情報（最小限）</div>
-    <div class="al al-info"><i class="ti ti-shield-check"></i>病院名・医師名などの機関情報は記録しません。服薬の有無と画像所見の内容のみ確認します。</div>
-    <div class="card">
-      <div class="lbl">Q11. 現在、服薬していますか？</div>
-      <div class="cg">
-        <label class="ci"><input type="radio" name="med" value="なし"><span>ない</span></label>
-        <label class="ci"><input type="radio" name="med" value="あり" id="med-y"><span>ある</span></label>
-        <label class="ci"><input type="radio" name="med" value="未確認" checked><span style="color:var(--tx2)">未確認</span></label>
-      </div>
-      <div id="medd" style="display:none;margin-top:10px">
-        <div class="lbl">薬の種類（種類のみ・商品名不要）</div>
-        <input type="text" id="medtype" placeholder="例：鎮痛剤、抗炎症薬など">
-      </div>
-    </div>
-    <div class="card">
-      <div class="lbl">Q12. 画像検査（レントゲン・MRI等）の所見内容</div>
-      <textarea id="img" placeholder="例：腰椎すべり症、椎間板ヘルニア、異常なし（任意・医療機関名は記載不要）"></textarea>
-      <div style="margin-top:8px">
-        <div class="lbl">クライアント自身の解釈・理解</div>
-        <textarea id="ptund" placeholder="例：一生治らないと思っている（任意）" rows="2"></textarea>
-      </div>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(6)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="go(8)">次へ <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ⑨ レッドフラッグ -->
-  <div class="sec" id="s8">
-    <div class="sttl"><i class="ti ti-alert-triangle"></i>9. 重篤疾患の除外（Red Flags）</div>
-    <div class="al al-warn"><i class="ti ti-shield-exclamation"></i>評価者が口頭で確認するリスク管理項目です。1つでも該当する場合は介入を中止し医療機関へ紹介してください。</div>
-    <div class="rf-block">
-      <div class="rf-ttl"><i class="ti ti-flag"></i>レッドフラッグ チェック</div>
-      <label class="rf-clear-lbl">
-        <input type="checkbox" id="rf-clear" checked onchange="toggleRF(this)">
-        <span class="rf-clear-txt">これらのレッドフラッグに関連する兆候は認められない</span>
-      </label>
-      <div class="rf-items muted" id="rf-items">
-        <div class="opt-hint">該当する項目があればチェックしてください</div>
-        <div class="cg">
-          <label class="ci rf"><input type="checkbox" id="r1" onchange="updateRFWarn()"><span class="ct">原因不明の急激な体重減少</span></label>
-          <label class="ci rf"><input type="checkbox" id="r2" onchange="updateRFWarn()"><span class="ct">発熱または全身の強い倦怠感</span></label>
-          <label class="ci rf"><input type="checkbox" id="r3" onchange="updateRFWarn()"><span class="ct">安静時・夜間も痛みが全く変わらない</span></label>
-          <label class="ci rf"><input type="checkbox" id="r4" onchange="updateRFWarn()"><span class="ct">進行性の麻痺・感覚低下</span></label>
-          <label class="ci rf"><input type="checkbox" id="r5" onchange="updateRFWarn()"><span class="ct">排尿・排便の障害（失禁など）</span></label>
-        </div>
-      </div>
-      <div class="rf-flag-warn al al-danger" id="rf-warn"><i class="ti ti-alert-circle"></i><span>レッドフラッグに該当あり — 介入を中止し、速やかに医療機関へ紹介してください。</span></div>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(7)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="go(9)">次へ <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ⑩ ゴール -->
-  <div class="sec" id="s9">
-    <div class="sttl"><i class="ti ti-target"></i>10. 治療ゴール・期待</div>
-    <div class="card">
-      <div class="lbl">Q13. 最終的にどのような状態になりたいですか？</div>
-      <div class="hint">例：痛みを気にせず旅行に行きたい、孫と思い切り遊びたい</div>
-      <textarea id="goal" rows="4" placeholder="具体的な目標・期待を自由記述（任意）"></textarea>
-    </div>
-    <div class="memo">
-      <div class="memo-hd"><i class="ti ti-notes"></i>評価者メモ — ゴール設定のポイント</div>
-      <div class="mcg">
-        <label class="mc"><input type="checkbox" id="gs"><span>SMARTゴールに落とし込んだ（具体的・測定可能・達成可能・現実的・期限あり）</span></label>
-        <label class="mc"><input type="checkbox" id="gp"><span>クライアントの価値観・優先事項を反映したゴールになっている</span></label>
-        <label class="mc"><input type="checkbox" id="gsh"><span>短期（1〜2週）と長期目標に分けて設定した</span></label>
-      </div>
-    </div>
-    <div class="brow">
-      <button class="btn" onclick="go(8)"><i class="ti ti-arrow-left"></i> 戻る</button>
-      <button class="btn p" onclick="showResult()">問診を完了して結果を生成 <i class="ti ti-report-medical"></i></button>
-    </div>
-  </div>
-
-  <!-- 結果 -->
-  <div class="sec" id="s10">
-    <div class="res-hdr">
-      <h2>問診結果サマリー</h2>
-      <p id="resub"></p>
-    </div>
-    <div id="rf-banner"></div>
-    <div class="rb"><h3><i class="ti ti-id-badge-off"></i>識別情報</h3><div id="rbasic"></div></div>
-    <div class="rb"><h3><i class="ti ti-stethoscope"></i>主訴・現病歴</h3><div id="rcomplaint"></div></div>
-    <div class="rb"><h3><i class="ti ti-trending-up"></i>症状の傾向</h3><div id="rtendency"></div></div>
-    <div id="guide-wrap"></div>
-    <div id="eval-wrap"></div>
-    <div id="aq-wrap"></div>
-    <div class="rb" id="rgoal-block" style="display:none"><h3><i class="ti ti-target"></i>クライアントのゴール</h3><div id="rgoal"></div></div>
-    <div class="act-row">
-      <button class="abtn" onclick="resetAll()"><i class="ti ti-refresh"></i> 新しい問診を開始</button>
-    </div>
-  </div>
-
-  <div class="footer">
-    このアプリはすべてブラウザ内で動作します。入力内容は外部に送信されません。<br>
-    © 初回介入時 問診票
+<div class="consent-overlay hidden" id="consentOverlay" role="dialog" aria-modal="true" aria-labelledby="consentTitle">
+  <div class="consent-card">
+    <h2 id="consentTitle">ご利用前にご確認ください</h2>
+    <ul class="consent-list">
+      <li>痛みが強いときは、エクササイズを行わないでください。</li>
+      <li>実施中に痛み・しびれなど症状の変化があった場合は、すぐにエクササイズを中止してください。</li>
+      <li>症状が続く場合は自己判断で再開せず、医師にご相談いただくか、次回の診察・リハビリ時に担当者へお伝えください。</li>
+    </ul>
+    <label class="consent-check">
+      <input type="checkbox" id="consentCheckbox">
+      上記の内容を理解しました
+    </label>
+    <button class="primary-btn" id="consentAgreeBtn" style="width:100%;" disabled>同意して進む</button>
   </div>
 </div>
 
+<!-- ============ STAFF VIEW ============ -->
+<div class="wrap" id="staffView" style="display:none;">
+  <header class="app-header">
+    <img class="clinic-logo" id="logoImgStaff" alt="有栖川整形外科">
+    <h1>セルフケアエクササイズ 処方作成</h1>
+    <p class="sub">種目を選び、回数・セット数を入力してください。作成後にリンク・QRコードが発行されます。</p>
+  </header>
+
+  <div class="search-row">
+    <input type="text" class="search-input" id="searchBox" placeholder="種目名で検索(例:パテラ、肩、スクワット)">
+  </div>
+
+  <div id="checklistContainer"></div>
+
+  <div id="resultPanel">
+    <h2>処方リンクが作成されました</h2>
+
+    <div class="link-row">
+      <input type="text" id="linkOutput" readonly>
+      <button class="secondary-btn" id="copyBtn">リンクをコピー</button>
+      <span class="copy-feedback" id="copyFeedback">コピーしました</span>
+    </div>
+
+    <div class="qr-row">
+      <div id="qrBox"></div>
+      <p class="qr-hint">このQRコードを患者様のスマートフォンで読み取ると、処方された内容がそのまま表示されます。</p>
+    </div>
+
+    <div class="action-row">
+      <button class="primary-btn" id="printBtn">印刷する(手渡し用)</button>
+      <button class="secondary-btn" id="resetBtn">新しく作成する</button>
+    </div>
+
+    <ul class="preview-list" id="previewList"></ul>
+  </div>
+</div>
+
+<!-- ============ PATIENT VIEW ============ -->
+<div class="wrap" id="patientView" style="display:none;" inert>
+  <header class="app-header">
+    <img class="clinic-logo" id="logoImgPatient" alt="有栖川整形外科">
+    <h1>セルフケアエクササイズ</h1>
+    <p class="sub">あなたに処方された内容です。回数・セット数を守って、無理のない範囲で行ってください。</p>
+  </header>
+
+  <div id="patientBody"></div>
+
+  <footer>ARISUGAWA ORTHOPEDIC CLINIC</footer>
+</div>
+
 <script>
-const VAS_LABELS = ['痛みなし','ほぼ痛みなし','わずかに痛む','軽度の痛み','やや強い痛み','中程度の痛み','強い痛み','かなり強い痛み','非常に強い痛み','耐えがたい痛み','想像しうる最大の痛み'];
+(function(){
+  "use strict";
 
-// ============================================================
-// 静的ガイドロジック
-// VAS・時間帯・メカニカル・職業・レッドフラッグ等から
-// 考えられること・確認すべき評価・追加質問を自動生成
-// ============================================================
-function buildGuide(d) {
-  const guides = [];
-  const evals = [];   // {title, priority, items:[]}
-  const addQs = [];
+  const LOGO_DATA_URI = "data:image/png;base64,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";
+  document.getElementById('logoImgStaff').src = LOGO_DATA_URI;
+  document.getElementById('logoImgPatient').src = LOGO_DATA_URI;
 
-  // ── レッドフラッグ ──
-  if (d.rfFlags.length > 0) {
-    guides.push('⚠️ レッドフラッグ該当あり：身体評価の前に医師への紹介を最優先してください。');
-  }
+  /* ===================== DATA ===================== */
+  const EXERCISES = [
+    {no:1,  name:"後頭下筋群マッサージ", cat:"頸・肩甲骨", purpose:"緩める", url:"https://youtu.be/ow79jRbdkVY"},
+    {no:2,  name:"後頭下筋群セルフマッサージ(ストレッチポール上)", cat:"頸・肩甲骨", purpose:"緩める", url:"https://youtu.be/z5BmYxR9kiM"},
+    {no:3,  name:"肩甲骨・肩回しストレッチ(ストレッチポール上)", cat:"頸・肩甲骨", purpose:"伸ばす", url:"https://youtu.be/mLA3SdaALZ0"},
+    {no:4,  name:"肩甲骨回しストレッチ(座位)", cat:"頸・肩甲骨", purpose:"伸ばす", url:"https://youtu.be/F8rw28rpTZI"},
+    {no:5,  name:"僧帽筋上部ストレッチ", cat:"頸・肩甲骨", purpose:"伸ばす", url:"https://youtu.be/1kKABG_wBKw"},
+    {no:6,  name:"斜角筋・胸鎖乳突筋ストレッチ", cat:"頸・肩甲骨", purpose:"伸ばす", url:"https://youtu.be/ZvPLQBuPifk"},
+    {no:7,  name:"頸部屈伸ex", cat:"頸・肩甲骨", purpose:"整える", url:"https://youtu.be/Y2riw8EST0w"},
+    {no:8,  name:"chin-in ex", cat:"頸・肩甲骨", purpose:"整える", url:"https://youtu.be/AuDBspynFsU"},
+    {no:9,  name:"Prone floor cobra", cat:"頸・肩甲骨", purpose:"整える", url:"https://youtu.be/L2nibqVOgOQ"},
+    {no:10, name:"Scapular push up", cat:"頸・肩甲骨", purpose:"整える", url:"https://youtu.be/gpTEyZVnmuw"},
+    {no:11, name:"Door stretch(大胸筋ストレッチ)", cat:"肩関節", purpose:"伸ばす", url:"https://youtu.be/Dto3GWOyePY"},
+    {no:12, name:"1st肩外旋ex", cat:"肩関節", purpose:"整える", url:"https://youtu.be/F5EPruRWf0Y"},
+    {no:13, name:"1st肩外旋ex(チューブ)", cat:"肩関節", purpose:"整える", url:"https://youtu.be/B3G94o0sWvE"},
+    {no:14, name:"棘上筋ex(チューブ)", cat:"肩関節", purpose:"整える", url:"https://youtu.be/5gpuzcBlV3Q"},
+    {no:15, name:"テーブルサンディング", cat:"肩関節", purpose:"伸ばす", url:"https://youtu.be/lcO-zu1y7EU"},
+    {no:16, name:"ウォールサンディング", cat:"肩関節", purpose:"伸ばす", url:"https://youtu.be/s71iDVRatzY"},
+    {no:17, name:"肩夜間ポジショニング", cat:"肩関節", purpose:"その他", url:"https://youtu.be/ZMrbB9kRQD0"},
+    {no:18, name:"羽ばたきエクササイズ", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/0AUJgBSmKHI"},
+    {no:19, name:"90-90 胸椎回旋ストレッチ", cat:"背中・腰", purpose:"伸ばす", url:"https://youtu.be/YAsjjG33nrc"},
+    {no:20, name:"Rock Back Child Pose", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/LqRUg8vZ2uQ"},
+    {no:21, name:"腰椎・股関節屈曲ストレッチ", cat:"背中・腰", purpose:"伸ばす", url:"https://youtu.be/LASCvvHIxHk"},
+    {no:22, name:"Supine Hip Crossover Stretch", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/7l7yEVfYquE"},
+    {no:23, name:"lat pulldown(タオル)", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/Ye-eaCN12HQ"},
+    {no:24, name:"draw-in", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/UdV5EoAQ3LE"},
+    {no:25, name:"Cat & Cow", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/UAgP6cmxHjg"},
+    {no:26, name:"Bird Dog", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/BEIza1ZrleM"},
+    {no:27, name:"プランク", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/xp265PWiBVs"},
+    {no:28, name:"Dead bug", cat:"背中・腰", purpose:"整える", url:"https://youtu.be/bhzrFvNMMjI"},
+    {no:29, name:"前腕屈筋群ストレッチ", cat:"肘・手関節", purpose:"伸ばす", url:"https://youtu.be/KFiOSnYn580"},
+    {no:30, name:"前腕伸筋群ストレッチ", cat:"肘・手関節", purpose:"伸ばす", url:"https://youtu.be/9EN_jqoaCV8"},
+    {no:31, name:"手内在筋ストレッチ", cat:"肘・手関節", purpose:"伸ばす", url:"https://youtu.be/pafuhvji0O0"},
+    {no:32, name:"腸腰筋ストレッチ", cat:"股関節", purpose:"伸ばす", url:"https://youtu.be/jFx97Qakq38"},
+    {no:33, name:"大腿直筋ストレッチ(腹臥位)", cat:"股関節", purpose:"伸ばす", url:"https://youtu.be/UlhsMKEhtBU"},
+    {no:34, name:"大殿筋ストレッチ(座位)", cat:"股関節", purpose:"伸ばす", url:"https://youtu.be/dZ9rFq_7iAc"},
+    {no:35, name:"クラムシェル", cat:"股関節", purpose:"整える", url:"https://youtu.be/X-n1U59dReE"},
+    {no:36, name:"内転筋ボールex(座位)", cat:"股関節", purpose:"整える", url:"https://youtu.be/oGxDGpC1r0s"},
+    {no:37, name:"Hip hinge(座位)", cat:"股関節", purpose:"整える", url:"https://youtu.be/hIQ9uz1kLuw"},
+    {no:38, name:"Single Leg Hip Lift", cat:"股関節", purpose:"整える", url:"https://youtu.be/Dhn1M9WFbKA"},
+    {no:39, name:"大腿四頭筋遠位マッサージ", cat:"膝関節", purpose:"緩める", url:"https://youtu.be/hYvgaE1m_to"},
+    {no:40, name:"膝蓋下脂肪体マッサージ", cat:"膝関節", purpose:"緩める", url:"https://youtu.be/_-20Ajo4PBk"},
+    {no:41, name:"Patella mobilization", cat:"膝関節", purpose:"緩める", url:"https://youtu.be/1Uf6i3nmuzk"},
+    {no:42, name:"Patella setting", cat:"膝関節", purpose:"整える", url:"https://youtu.be/RKGL6k09Y6w"},
+    {no:43, name:"Leg extension(ボール潰し)", cat:"膝関節", purpose:"整える", url:"https://youtu.be/y5XRWzpBPHI"},
+    {no:44, name:"SLR ex", cat:"膝関節", purpose:"整える", url:"https://youtu.be/4pt0TtprUho"},
+    {no:45, name:"下腿内旋ex", cat:"膝関節", purpose:"整える", url:"https://youtu.be/-qoRuNMfYEg"},
+    {no:46, name:"スクワット", cat:"膝関節", purpose:"整える", url:"https://youtu.be/QEC0pjaIwLU"},
+    {no:47, name:"足趾ストレッチ", cat:"足関節", purpose:"伸ばす", url:"https://youtu.be/JjGSvSJG-YU"},
+    {no:48, name:"足底リリース(ボール)", cat:"足関節", purpose:"緩める", url:"https://youtu.be/uNubDHXOMDM"},
+    {no:49, name:"腓腹筋ストレッチ(タオル)", cat:"足関節", purpose:"伸ばす", url:"https://youtu.be/-fQHuD79sJQ"},
+    {no:50, name:"タオルギャザー", cat:"足関節", purpose:"整える", url:"https://youtu.be/gql7H6pQsdg"},
+    {no:51, name:"Toe-tap ex", cat:"足関節", purpose:"整える", url:"https://youtu.be/yQI3m4yDjME"}
+  ];
 
-  // ── VAS ──
-  if (d.vas >= 8) {
-    guides.push('VAS 8以上：強い急性炎症または重篤疾患の可能性があります。初回は評価のみとし、積極的な介入は控えてください。');
-    evals.push({title:'疼痛評価・炎症所見の確認', priority:'urgent', items:[
-      '安静時・運動時・荷重時の疼痛パターンを詳細に記録する',
-      '局所の熱感・腫脹・発赤（炎症の4徴）を視診・触診で確認する',
-      'NRS/VASで安静時・動作時の疼痛強度を数値化する'
-    ]});
-  } else if (d.vas >= 5) {
-    guides.push('VAS 5〜7：中等度の疼痛があります。評価中の疼痛増悪に注意し、負荷量を慎重に調整してください。');
-  } else if (d.vas > 0) {
-    guides.push('VAS 1〜4：軽度〜中等度の疼痛です。評価・介入ともに進めやすい状態です。');
-  }
+  const CATEGORY_ORDER = ["頸・肩甲骨","肩関節","背中・腰","肘・手関節","股関節","膝関節","足関節"];
+  const PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  const EYE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const UNIT_CODE = {'回':'r', '秒':'s'};
+  const UNIT_LABEL = {'r':'回', 's':'秒'};
 
-  // ── 夜間・安静時痛 ──
-  if (d.nightPain) {
-    guides.push('夜間・安静時痛あり：腫瘍・感染・強い炎症反応の鑑別が必要です。レッドフラッグを再確認し、必要に応じて医療機関へ紹介を検討してください。');
-    evals.push({title:'夜間・安静時痛の精査', priority:'urgent', items:[
-      '疼痛の性質（ズキズキ・ジンジン・圧迫感）と強度を詳細に聴取する',
-      '発熱・体重減少・全身倦怠感の有無を口頭で再確認する',
-      'ポジショニングによる変化（横になると増悪・軽減など）を確認する'
-    ]});
-  }
+  /* ===================== Routing: staff vs patient ===================== */
+  const params = new URLSearchParams(window.location.search);
+  const rxParam = params.get('rx');
 
-  // ── 朝のこわばり ──
-  if (d.morningPain) {
-    guides.push('朝・動き始めに強い：関節・筋膜の硬さ、または関節リウマチ・変形性関節症の可能性があります。');
-    evals.push({title:'関節可動域・ウォームアップ評価', priority:'primary', items:[
-      '起床後と活動後のROMを比較計測し、ウォームアップ後の変化を確認する',
-      '関節の捻髪音・クリック音・弾発現象の有無を確認する',
-      '朝のこわばりの持続時間を聴取する（30分以上は炎症性疾患を示唆）'
-    ]});
-  }
-
-  // ── 日中・活動時増悪 ──
-  if (d.daytimePain) {
-    guides.push('日中・夕方に増悪：筋力・筋持久力不足、または姿勢疲労による蓄積ストレスが考えられます。');
-    evals.push({title:'筋力・筋持久力評価', priority:'primary', items:[
-      '主要筋群のMMT（徒手筋力テスト）を実施する',
-      '持続的な姿勢保持テスト（コアスタビリティ、肩甲骨保持など）を実施する',
-      '動的アライメントと疲労による姿勢変化を観察する'
-    ]});
-  }
-
-  // ── メカニカルストレス ──
-  if (d.mech1) {
-    guides.push('自動運動で痛む・他動で軽減：筋・腱の問題（腱炎・筋損傷・インピンジメント）が示唆されます。');
-    evals.push({title:'筋・腱の評価', priority:'primary', items:[
-      'MMTで患部周囲の筋力と収縮時疼痛を確認する',
-      '腱の圧痛部位・範囲を触診で特定する',
-      'インピンジメントテスト（部位に応じてニア・ホーキンス等）を実施する',
-      '抵抗運動テスト（等尺性収縮）で疼痛再現を確認する'
-    ]});
-  }
-  if (d.mech2) {
-    guides.push('自動・他動ともに制限：関節包・靭帯・関節軟骨の問題、または癒着・拘縮が示唆されます。');
-    evals.push({title:'関節可動域・エンドフィール評価', priority:'primary', items:[
-      '全方向のROMを角度計で計測し、健側と比較する',
-      'エンドフィール（終端感）の性質（弾性・筋性・空虚・骨性）を確認する',
-      'カプセルパターンの有無を確認する（部位別パターンと照合）',
-      '付属運動（関節副運動）の評価を実施する'
-    ]});
-  }
-  if (d.mech3) {
-    guides.push('荷重時のみ症状あり：荷重ストレス・アライメント不良・足底圧の偏位が考えられます。');
-    evals.push({title:'荷重・アライメント評価', priority:'primary', items:[
-      '静的アライメント（立位・座位）を前後・側方から評価する',
-      '片脚立位テストで下肢安定性・トレンデレンブルグ徴候を確認する',
-      '歩行・スクワット動作の動的アライメントを観察する',
-      '足部アーチ・回内外の程度を確認する'
-    ]});
-  }
-
-  // ── 職業 ──
-  if (d.job === 'デスクワーク中心') {
-    guides.push('デスクワーク中心：胸椎後弯・頸椎前突・股関節屈曲拘縮のパターンが多くみられます。姿勢評価を優先してください。');
-    evals.push({title:'デスクワーク姿勢の評価', priority:'secondary', items:[
-      '胸椎伸展可動域（座位・臥位）を評価する',
-      '頸椎アライメント・頭部前方変位の程度を確認する',
-      'トーマステスト（腸腰筋・大腿直筋短縮）を実施する',
-      '肩甲骨の安定性・外転距離を確認する'
-    ]});
-    addQs.push({topic:'1日の座位時間', q:'1日のうち、何時間程度座っていますか？また、立ち上がる頻度はどのくらいですか？', reason:'長時間座位の程度が筋拘縮・姿勢負担の評価指標になります'});
-  }
-  if (d.job === '重労働') {
-    guides.push('重労働・激しい身体作業：腰部への反復ストレスが蓄積している可能性があります。体幹スタビリティと動作パターンを確認してください。');
-    evals.push({title:'体幹スタビリティ・動作評価', priority:'secondary', items:[
-      'コアスタビリティテスト（ドローイン・ブレーシング）を実施する',
-      'ヒンジ動作（股関節主導の前傾）の質を評価する',
-      '反復動作における腰部の過伸展・過屈曲パターンを観察する'
-    ]});
-  }
-  if (d.job === 'スポーツ・アスリート') {
-    guides.push('スポーツ・アスリート：スポーツ特異的な動作パターンや競技特性を考慮した評価が重要です。');
-    addQs.push({topic:'競技種目・ポジション', q:'取り組んでいる競技の種目・ポジション・週の練習量を教えてください。', reason:'競技特異的な動作パターンと受傷機転の関連を評価するために必要です'});
-  }
-
-  // ── 過去に同様症状あり ──
-  if (d.pastSimilar === 'あり') {
-    guides.push('過去に同様の症状あり：慢性・反復性の問題である可能性があります。前回の改善・悪化要因を治療計画に反映してください。');
-  }
-
-  // ── 未確認項目への追加質問 ──
-  if (!d.onset) addQs.push({topic:'発症時期・経緯', q:'症状はいつ頃から、何をしているときに始まりましたか？', reason:'急性か慢性かで評価・介入の優先順位が大きく変わります'});
-  if (!d.worse && !d.better) addQs.push({topic:'悪化・軽減動作', q:'どんな動きや姿勢をすると症状が強くなりますか？また楽になる姿勢はありますか？', reason:'メカニカルストレスの方向性を特定し、評価テストの選択に役立ちます'});
-  if (!d.pm && !d.pd && !d.nightPain) addQs.push({topic:'痛みの時間帯パターン', q:'1日の中で症状が一番強い時間帯はいつですか（朝・日中・夜）？', reason:'炎症の性質と疾患の鑑別に重要な情報です'});
-  if (!d.pi) addQs.push({topic:'既往歴・過去の怪我', q:'過去に大きな怪我、手術、または繰り返しているお身体の不調はありますか？', reason:'既往症が現症状の原因や増悪因子となっている可能性があります'});
-  if (!d.fl) addQs.push({topic:'機能制限・困っていること', q:'この症状によって、日常生活や仕事・趣味の中でできなくて困っていることはありますか？', reason:'機能目標の設定と治療優先順位の決定に直結します'});
-
-  return { guides, evals, addQs };
-}
-
-function ri(l, v) {
-  if (!v || String(v).trim() === '') return '';
-  return `<div class="ri"><span class="rl">${l}</span><span class="rv">${v}</span></div>`;
-}
-
-window.onVas = function(v) {
-  document.getElementById('vv').textContent = v;
-  document.getElementById('vdesc').textContent = VAS_LABELS[parseInt(v)] || '';
-};
-
-(function init() {
-  const d = new Date();
-  document.getElementById('today').value = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
-  document.querySelectorAll('input[name="ps"]').forEach(r => {
-    r.addEventListener('change', () => {
-      document.getElementById('psd').style.display = (r.value === 'あり' && r.checked) ? 'block' : 'none';
-    });
-  });
-  document.getElementById('med-y').addEventListener('change', () => document.getElementById('medd').style.display = 'block');
-  document.querySelectorAll('input[name="med"]').forEach(r => {
-    r.addEventListener('change', () => { if (r.value !== 'あり') document.getElementById('medd').style.display = 'none'; });
-  });
-  document.getElementById('ex-y').addEventListener('change', () => document.getElementById('exd').style.display = 'block');
-  document.querySelectorAll('input[name="ex"]').forEach(r => {
-    r.addEventListener('change', () => { if (r.value !== 'あり') document.getElementById('exd').style.display = 'none'; });
-  });
-  document.querySelectorAll('.tab').forEach(t => {
-    t.addEventListener('click', () => {
-      const i = parseInt(t.dataset.s);
-      if (i === 10) showResult(); else go(i);
-    });
-  });
-})();
-
-window.nightCheck = function(el) { document.getElementById('nwarn').style.display = el.checked ? 'block' : 'none'; };
-window.toggleRF = function(cb) {
-  document.getElementById('rf-items').classList.toggle('muted', cb.checked);
-  if (cb.checked) {
-    ['r1','r2','r3','r4','r5'].forEach(id => document.getElementById(id).checked = false);
-    document.getElementById('rf-warn').style.display = 'none';
-  }
-};
-window.updateRFWarn = function() {
-  const any = ['r1','r2','r3','r4','r5'].some(id => document.getElementById(id).checked);
-  document.getElementById('rf-warn').style.display = any ? 'flex' : 'none';
-};
-window.go = function(i) {
-  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
-  document.getElementById('s' + i).classList.add('on');
-  document.querySelector('.tab[data-s="' + i + '"]').classList.add('on');
-  document.getElementById('pfill').style.width = Math.min(Math.round(((i+1)/10)*100), 100) + '%';
-  document.getElementById('plabel').textContent = i < 10 ? `${i+1} / 9 セクション` : '結果サマリー';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-window.resetAll = function() {
-  if (!confirm('新しい問診を開始します。現在の入力内容はすべて消去されます。よろしいですか？')) return;
-  location.reload();
-};
-
-window.showResult = function() {
-  go(10);
-
-  const cid = document.getElementById('cid').value;
-  const ar  = document.getElementById('age').value;
-  const gn  = document.getElementById('gender').value;
-  document.getElementById('resub').textContent = `管理番号: ${cid||'未記入'}　${ar||''}　${gn||''}　${document.getElementById('today').value}`;
-
-  const rfClear = document.getElementById('rf-clear').checked;
-  const rfFlagMap = {r1:'急激な体重減少',r2:'発熱・全身倦怠感',r3:'安静時・夜間痛',r4:'進行性麻痺・感覚低下',r5:'排尿排便障害'};
-  const rfFlags = ['r1','r2','r3','r4','r5'].filter(id => document.getElementById(id).checked).map(id => rfFlagMap[id]);
-
-  const rfBanner = document.getElementById('rf-banner');
-  if (!rfClear && rfFlags.length > 0) {
-    rfBanner.innerHTML = `<div class="al al-danger"><i class="ti ti-alert-circle"></i><strong>レッドフラッグ該当あり（${rfFlags.join('、')}）</strong> — 介入を中止し、速やかに医療機関へ紹介してください。</div>`;
-  } else if (rfClear) {
-    rfBanner.innerHTML = `<div class="al al-ok"><i class="ti ti-circle-check"></i>レッドフラッグの兆候なし（確認済み）— 介入可能です。</div>`;
+  if (rxParam){
+    initPatientView(rxParam);
   } else {
-    rfBanner.innerHTML = `<div class="al al-warn"><i class="ti ti-alert-triangle"></i>レッドフラッグの確認が未実施です。必ず口頭で確認してください。</div>`;
+    initStaffView();
   }
 
-  const vas        = parseInt(document.getElementById('vas').value);
-  const cc         = document.getElementById('cc').value;
-  const onset      = document.getElementById('onset').value;
-  const onsetType  = document.getElementById('onset-type').value;
-  const pi         = document.getElementById('pi').value;
-  const pm         = document.getElementById('pm').checked;
-  const pd         = document.getElementById('pd').checked;
-  const pn         = document.getElementById('pn').checked;
-  const m1         = document.getElementById('m1').checked;
-  const m2         = document.getElementById('m2').checked;
-  const m3         = document.getElementById('m3').checked;
-  const worse      = document.getElementById('worse').value;
-  const better     = document.getElementById('better').value;
-  const job        = document.querySelector('input[name="job"]:checked')?.value || '未確認';
-  const fl         = document.getElementById('fl').value;
-  const pastSimilar= document.querySelector('input[name="ps"]:checked')?.value || '未確認';
-
-  const times  = [pm&&'朝', pd&&'日中・夕方', pn&&'夜間・安静時'].filter(Boolean);
-  const mechs  = [m1&&'筋・腱の問題を示唆', m2&&'関節・可動域制限を示唆', m3&&'荷重ストレス・アライメントを示唆'].filter(Boolean);
-
-  document.getElementById('rbasic').innerHTML =
-    ri('管理番号', cid) + ri('年代・性別', `${ar||'未確認'} ${gn||''}`);
-  document.getElementById('rcomplaint').innerHTML =
-    ri('主訴', cc||'未記入') +
-    ri('発症', onset ? (onset + (onsetType ? ' / ' + onsetType : '')) : '未確認') +
-    ri('現在のVAS', `${vas} / 10　${VAS_LABELS[vas]||''}`);
-  document.getElementById('rtendency').innerHTML =
-    ri('悪化動作', worse||'未確認') +
-    ri('軽減動作', better||'未確認') +
-    ri('痛みが強い時間帯', times.length ? times.join('、') : '未確認') +
-    ri('メカニカル推測', mechs.length ? mechs.join(' / ') : '未評価');
-
-  const goal = document.getElementById('goal').value;
-  if (goal) {
-    document.getElementById('rgoal').innerHTML = ri('ゴール', goal);
-    document.getElementById('rgoal-block').style.display = 'block';
-  }
-
-  // ── 静的ガイド生成 ──
-  const data = { vas, nightPain: pn, morningPain: pm, daytimePain: pd,
-    mech1: m1, mech2: m2, mech3: m3, job, onset, worse, better,
-    pi, fl, pastSimilar, rfFlags };
-  const { guides, evals, addQs } = buildGuide(data);
-
-  // 考えられること
-  let gHtml = '';
-  if (guides.length > 0) {
-    gHtml = `<div class="guide-block"><h3><i class="ti ti-bulb"></i>考えられること・介入上の注意点</h3>`;
-    guides.forEach(g => { gHtml += `<div class="guide-item">${g}</div>`; });
-    gHtml += `</div>`;
-  }
-  document.getElementById('guide-wrap').innerHTML = gHtml;
-
-  // 評価プラン
-  const bm = {urgent:'b-urgent', primary:'b-primary', secondary:'b-secondary'};
-  const bl = {urgent:'最優先', primary:'優先', secondary:'補助的'};
-  let eHtml = '';
-  if (evals.length > 0) {
-    eHtml = `<div class="eval-block"><h3><i class="ti ti-clipboard-check"></i>確認すべき評価項目</h3>`;
-    evals.forEach(ev => {
-      eHtml += `<div class="eval-section">
-        <div class="eval-section-ttl">${ev.title}<span class="badge ${bm[ev.priority]||'b-secondary'}">${bl[ev.priority]||ev.priority}</span></div>`;
-      ev.items.forEach(item => { eHtml += `<div class="eval-item">${item}</div>`; });
-      eHtml += `</div>`;
+  /* ===================== Consent gate (patient view only) ===================== */
+  function showConsentGate(onAgree){
+    const overlay = document.getElementById('consentOverlay');
+    const checkbox = document.getElementById('consentCheckbox');
+    const agreeBtn = document.getElementById('consentAgreeBtn');
+    overlay.classList.remove('hidden');
+    checkbox.addEventListener('change', function(){ agreeBtn.disabled = !checkbox.checked; });
+    agreeBtn.addEventListener('click', function(){
+      overlay.classList.add('hidden');
+      onAgree();
     });
-    eHtml += `</div>`;
   }
-  document.getElementById('eval-wrap').innerHTML = eHtml;
 
-  // 追加質問
-  let aHtml = '';
-  if (addQs.length > 0) {
-    aHtml = `<div class="aq-block"><h3><i class="ti ti-help-circle"></i>確認しておくと精度が上がる追加質問</h3>`;
-    addQs.forEach(q => {
-      aHtml += `<div class="aq-item"><i class="ti ti-message-question"></i>
-        <div><div style="font-weight:600;margin-bottom:2px">${q.topic}</div>
-        <div style="margin-bottom:3px">「${q.q}」</div>
-        <div style="font-size:11px;opacity:.8">${q.reason}</div></div></div>`;
+  /* ===================== STAFF VIEW ===================== */
+  function initStaffView(){
+    document.getElementById('staffView').style.display = 'block';
+
+    const container = document.getElementById('checklistContainer');
+    const byCat = {};
+    EXERCISES.forEach(function(e){ (byCat[e.cat] = byCat[e.cat] || []).push(e); });
+
+    CATEGORY_ORDER.forEach(function(cat){
+      const items = byCat[cat] || [];
+      if (items.length === 0) return;
+      const group = document.createElement('div');
+      group.className = 'cat-group';
+      group.innerHTML = '<p class="cat-title">' + cat + '</p>';
+      items.forEach(function(ex){
+        const row = document.createElement('div');
+        row.className = 'ex-row';
+        row.dataset.no = ex.no;
+        row.dataset.name = ex.name;
+        // ストレッチ・マッサージ系は「秒」、トレーニング系は「回」をデフォルトにする
+        const defaultUnit = (ex.purpose === '伸ばす' || ex.purpose === '緩める') ? '秒' : '回';
+        row.innerHTML =
+          '<input type="checkbox" id="chk' + ex.no + '" data-no="' + ex.no + '">' +
+          '<span class="ex-no">No.' + String(ex.no).padStart(2,'0') + '</span>' +
+          '<div class="ex-main">' +
+            '<p class="ex-name">' + ex.name + '</p>' +
+            '<span class="ex-tag">' + ex.cat + ' / ' + ex.purpose + '</span>' +
+          '</div>' +
+          '<div class="ex-qty-inputs">' +
+            '<div class="qty-field"><label>回数/秒数</label>' +
+              '<div class="qty-row">' +
+                '<input type="number" min="1" value="10" class="qty-reps" data-no="' + ex.no + '">' +
+                '<select class="qty-unit" data-no="' + ex.no + '" data-default="' + defaultUnit + '">' +
+                  '<option value="回"' + (defaultUnit==='回' ? ' selected' : '') + '>回</option>' +
+                  '<option value="秒"' + (defaultUnit==='秒' ? ' selected' : '') + '>秒</option>' +
+                '</select>' +
+              '</div>' +
+            '</div>' +
+            '<div class="qty-field"><label>セット数</label><input type="number" min="1" value="2" class="qty-sets" data-no="' + ex.no + '"></div>' +
+          '</div>' +
+          '<a class="ex-preview-link" href="' + ex.url + '" target="_blank" rel="noopener noreferrer" title="動画を確認する">' + EYE_ICON + '</a>';
+        group.appendChild(row);
+      });
+      container.appendChild(group);
     });
-    aHtml += `</div>`;
+
+    // checkbox toggle
+    container.addEventListener('change', function(e){
+      if (e.target.matches('input[type="checkbox"]')){
+        const row = e.target.closest('.ex-row');
+        row.classList.toggle('is-checked', e.target.checked);
+        updateSelectionCount();
+      }
+    });
+
+    // search filter
+    document.getElementById('searchBox').addEventListener('input', function(e){
+      const q = e.target.value.trim().toLowerCase();
+      const rows = container.querySelectorAll('.ex-row');
+      rows.forEach(function(row){
+        const name = row.dataset.name.toLowerCase();
+        const match = q === '' || name.indexOf(q) !== -1;
+        row.classList.toggle('is-hidden', !match);
+      });
+      container.querySelectorAll('.cat-group').forEach(function(group){
+        const visible = group.querySelectorAll('.ex-row:not(.is-hidden)').length;
+        group.style.display = visible === 0 ? 'none' : '';
+      });
+    });
+
+    // sticky selection bar
+    const bar = document.createElement('div');
+    bar.className = 'selection-bar';
+    bar.innerHTML =
+      '<span class="selection-count">選択中:<b id="selCount">0</b>件</span>' +
+      '<button class="primary-btn" id="generateBtn" disabled>処方リンクを作成する</button>';
+    document.body.appendChild(bar);
+
+    function updateSelectionCount(){
+      const n = container.querySelectorAll('input[type="checkbox"]:checked').length;
+      document.getElementById('selCount').textContent = n;
+      document.getElementById('generateBtn').disabled = (n === 0);
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', function(){
+      const selections = collectSelections(container);
+      if (selections.length === 0) return;
+      renderResultPanel(selections);
+    });
+
+    document.getElementById('resetBtn') && document.getElementById('resetBtn').addEventListener('click', resetStaffForm);
+
+    function resetStaffForm(){
+      container.querySelectorAll('input[type="checkbox"]').forEach(function(c){ c.checked = false; });
+      container.querySelectorAll('.ex-row').forEach(function(r){ r.classList.remove('is-checked'); });
+      container.querySelectorAll('.qty-reps').forEach(function(i){ i.value = 10; });
+      container.querySelectorAll('.qty-sets').forEach(function(i){ i.value = 2; });
+      container.querySelectorAll('.qty-unit').forEach(function(s){ s.value = s.dataset.default; });
+      document.getElementById('searchBox').value = '';
+      container.querySelectorAll('.ex-row').forEach(function(r){ r.classList.remove('is-hidden'); });
+      container.querySelectorAll('.cat-group').forEach(function(g){ g.style.display=''; });
+      document.getElementById('resultPanel').classList.remove('visible');
+      updateSelectionCount();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
   }
-  document.getElementById('aq-wrap').innerHTML = aHtml;
-};
+
+  function collectSelections(container){
+    const result = [];
+    EXERCISES.forEach(function(ex){
+      const chk = container.querySelector('#chk' + ex.no);
+      if (chk && chk.checked){
+        const reps = parseInt(container.querySelector('.qty-reps[data-no="'+ex.no+'"]').value, 10) || 1;
+        const sets = parseInt(container.querySelector('.qty-sets[data-no="'+ex.no+'"]').value, 10) || 1;
+        const unit = container.querySelector('.qty-unit[data-no="'+ex.no+'"]').value || '回';
+        result.push({no: ex.no, name: ex.name, cat: ex.cat, url: ex.url, reps: reps, sets: sets, unit: unit});
+      }
+    });
+    return result;
+  }
+
+  function buildRxString(selections){
+    return selections.map(function(s){
+      return s.no + '-' + s.reps + '-' + s.sets + '-' + (UNIT_CODE[s.unit] || 'r');
+    }).join(',');
+  }
+
+  function renderResultPanel(selections){
+    const rx = buildRxString(selections);
+    const link = window.location.origin + window.location.pathname + '?rx=' + encodeURIComponent(rx);
+
+    document.getElementById('linkOutput').value = link;
+
+    const qrBox = document.getElementById('qrBox');
+    qrBox.innerHTML = '';
+    new QRCode(qrBox, { text: link, width: 150, height: 150, correctLevel: QRCode.CorrectLevel.M });
+
+    const previewList = document.getElementById('previewList');
+    previewList.innerHTML = '';
+    selections.forEach(function(s){
+      const li = document.createElement('li');
+      li.className = 'preview-card';
+      li.innerHTML =
+        '<span class="ex-no">No.' + String(s.no).padStart(2,'0') + '</span>' +
+        '<div class="ex-main"><p class="ex-name" style="margin:0;">' + s.name + '</p></div>' +
+        '<span class="preview-qty">' + s.reps + s.unit + ' × ' + s.sets + 'セット</span>';
+      previewList.appendChild(li);
+    });
+
+    document.getElementById('resultPanel').classList.add('visible');
+    document.getElementById('resultPanel').scrollIntoView({behavior:'smooth', block:'start'});
+
+    document.getElementById('copyBtn').onclick = function(){
+      const input = document.getElementById('linkOutput');
+      input.select();
+      let copied = false;
+      try{
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(link);
+          copied = true;
+        } else {
+          copied = document.execCommand('copy');
+        }
+      }catch(err){ copied = false; }
+      const fb = document.getElementById('copyFeedback');
+      if (copied){
+        fb.classList.add('show');
+        setTimeout(function(){ fb.classList.remove('show'); }, 2000);
+      }
+    };
+
+    document.getElementById('printBtn').onclick = function(){ openPrintPopup(selections, link, qrBox); };
+  }
+
+  function openPrintPopup(selections, link, qrBoxEl){
+    let qrDataUri = '';
+    const canvas = qrBoxEl.querySelector('canvas');
+    if (canvas){ qrDataUri = canvas.toDataURL('image/png'); }
+    else {
+      const img = qrBoxEl.querySelector('img');
+      if (img){ qrDataUri = img.src; }
+    }
+
+    const rows = selections.map(function(s){
+      return '<tr><td>No.' + String(s.no).padStart(2,'0') + '</td><td>' + s.name + '</td>' +
+             '<td style="text-align:center;">' + s.reps + ' ' + s.unit + '</td><td style="text-align:center;">' + s.sets + ' セット</td></tr>';
+    }).join('');
+
+    const html =
+      '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">' +
+      '<title>セルフケアエクササイズ プログラム</title>' +
+      '<style>' +
+      'body{font-family:"Hiragino Sans","Yu Gothic",sans-serif; color:#161616; padding:32px; max-width:680px; margin:0 auto;}' +
+      '.logo{height:36px; margin-bottom:14px;}' +
+      'h1{font-size:20px; margin:0 0 4px;}' +
+      '.blank{font-size:14px; margin:18px 0; display:flex; gap:28px;}' +
+      '.blank span{border-bottom:1px solid #161616; display:inline-block; min-width:160px; padding:2px 4px;}' +
+      'table{width:100%; border-collapse:collapse; margin:18px 0; font-size:14px;}' +
+      'th,td{border:1px solid #ccc; padding:8px 10px; text-align:left;}' +
+      'th{background:#F6F6F6;}' +
+      '.qr-area{display:flex; align-items:center; gap:18px; margin:22px 0; padding:16px; border:1px solid #E2E2E2; border-radius:10px;}' +
+      '.qr-area img{width:120px; height:120px;}' +
+      '.qr-area p{font-size:12.5px; color:#5A5A5A; margin:0; word-break:break-all;}' +
+      '.safety{font-size:11.5px; color:#5A5A5A; border-top:1px dashed #E2E2E2; padding-top:12px; margin-top:24px; line-height:1.7;}' +
+      '@media print{ .print-btn{display:none;} }' +
+      '</style></head><body>' +
+      '<img class="logo" src="' + LOGO_DATA_URI + '" alt="有栖川整形外科">' +
+      '<h1>セルフケアエクササイズ プログラム</h1>' +
+      '<div class="blank">お名前:<span>&nbsp;</span> 様</div>' +
+      '<div class="blank">処方日:<span>&nbsp;</span></div>' +
+      '<table><thead><tr><th>No.</th><th>種目名</th><th>回数/秒数</th><th>セット数</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+      (qrDataUri ?
+        '<div class="qr-area"><img src="' + qrDataUri + '" alt="QRコード"><p>スマートフォンでこのQRコードを読み取ると、動画つきの一覧をブラウザで確認できます。<br>' + link + '</p></div>'
+        : '') +
+      '<p class="safety"><strong>運動を行う際の注意</strong><br>痛みが強いときは行わないでください。実施中に痛み・しびれなど症状の変化があった場合はすぐに中止し、医師にご相談いただくか、次回の診察・リハビリ時に担当者へお伝えください。</p>' +
+      '<button class="print-btn" onclick="window.print()" style="margin-top:18px; padding:10px 20px; font-size:14px; cursor:pointer;">この画面を印刷する</button>' +
+      '</body></html>';
+
+    const w = window.open('', '_blank');
+    if (!w){
+      alert('ポップアップがブロックされました。ブラウザのポップアップ許可設定をご確認ください。');
+      return;
+    }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+  }
+
+  /* ===================== PATIENT VIEW ===================== */
+  function initPatientView(rxParamValue){
+    document.getElementById('patientView').style.display = 'block';
+    const patientView = document.getElementById('patientView');
+    const body = document.getElementById('patientBody');
+
+    const decoded = decodeURIComponent(rxParamValue);
+    const parts = decoded.split(',').filter(Boolean);
+    const selections = [];
+    parts.forEach(function(part){
+      const bits = part.split('-');
+      if (bits.length !== 3 && bits.length !== 4) return;
+      const no = parseInt(bits[0],10), reps = parseInt(bits[1],10), sets = parseInt(bits[2],10);
+      const unit = bits.length === 4 ? (UNIT_LABEL[bits[3]] || '回') : '回';
+      const ex = EXERCISES.find(function(e){ return e.no === no; });
+      if (ex && reps > 0 && sets > 0){
+        selections.push({no: ex.no, name: ex.name, url: ex.url, reps: reps, sets: sets, unit: unit});
+      }
+    });
+
+    function renderBody(){
+      if (selections.length === 0){
+        body.innerHTML = '<p class="error-note">処方内容を読み込めませんでした。お手数ですが、スタッフにリンクをもう一度発行してもらうようお伝えください。</p>';
+        return;
+      }
+      const list = document.createElement('ul');
+      list.className = 'ex-list';
+      selections.forEach(function(s){
+        const li = document.createElement('li');
+        li.className = 'ex-card';
+        li.innerHTML =
+          '<span class="ex-no" style="font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); background:var(--surface-sunken); border-radius:6px; padding:4px 7px; font-weight:700;">No.' + String(s.no).padStart(2,'0') + '</span>' +
+          '<div class="ex-body">' +
+            '<p class="ex-name">' + s.name + '</p>' +
+            '<span class="ex-qty-display">' + s.reps + s.unit + ' × ' + s.sets + 'セット</span>' +
+          '</div>' +
+          '<a class="ex-play" href="' + s.url + '" target="_blank" rel="noopener noreferrer">' + PLAY_ICON + '動画を見る</a>';
+        list.appendChild(li);
+      });
+      body.innerHTML = '';
+      body.appendChild(list);
+
+      const safety = document.createElement('p');
+      safety.className = 'safety-note';
+      safety.innerHTML = '<strong>運動を行う際の注意</strong><br>痛みが強いときは行わないでください。実施中に痛み・しびれなど症状の変化があった場合はすぐに中止し、自己判断で再開せず、医師にご相談いただくか、次回の診察・リハビリ時に担当者へお伝えください。';
+      body.appendChild(safety);
+    }
+
+    showConsentGate(function(){
+      patientView.removeAttribute('inert');
+      renderBody();
+    });
+  }
+
+})();
 </script>
 </body>
 </html>
